@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thùy Dương ơi ❤️ • Đi chơi với Ân nhé</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&amp;family=Quicksand:wght@500;600&amp;display=swap');
+    
+    :root {
+      --pink-pastel: #FCE7F3;
+      --peach: #FDBA74;
+      --pink-peach: #F9A8D4;
+    }
+    
+    body {
+      font-family: 'Nunito', 'Quicksand', system-ui, -apple-system, sans-serif;
+    }
+    
+    .romantic-bg {
+      background: linear-gradient(135deg, #FFF5F7 0%, #FFF0F5 50%, #FDF2F8 100%);
+    }
+    
+    .glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+    }
+    
+    .cute-shadow {
+      box-shadow: 0 10px 30px -10px rgb(249 168 212 / 0.3),
+                  0 4px 6px -1px rgb(0 0 0 / 0.05);
+    }
+    
+    .soft-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .soft-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .section-title {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      letter-spacing: -0.02em;
+    }
+    
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatUp linear forwards;
+      user-select: none;
+    }
+    
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-120px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    .screen {
+      transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    
+    .romantic-card {
+      border-radius: 2.5rem;
+      border: 1px solid #F9A8D4;
+    }
+    
+    .color-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 9999px;
+      cursor: pointer;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1),
+                  inset 0 2px 4px rgb(255 255 255 / 0.6);
+      transition: all 0.2s ease;
+    }
+    
+    .color-circle:hover {
+      transform: scale(1.1);
+    }
+    
+    .color-circle.selected {
+      border-color: #EC4899;
+      box-shadow: 0 0 0 4px #FCE7F3, 0 4px 12px rgb(0 0 0 / 0.15);
+      transform: scale(1.05);
+    }
+    
+    .cute-checkbox {
+      accent-color: #EC4899;
+    }
+    
+    .form-label {
+      font-weight: 700;
+      color: #831C3D;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .date-input, .time-input {
+      border: 2px solid #F9A8D4;
+      border-radius: 1rem;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      transition: all 0.2s;
+      background: #fff;
+    }
+    
+    .date-input:focus, .time-input:focus {
+      border-color: #EC4899;
+      box-shadow: 0 0 0 4px #FCE7F3;
+      outline: none;
+    }
+    
+    .food-chip {
+      transition: all 0.2s;
+    }
+    
+    .food-chip:hover {
+      transform: translateY(-1px);
+    }
+    
+    .activity-chip {
+      background: #FFF0F5;
+      border: 1px solid #F9A8D4;
+      border-radius: 9999px;
+      padding: 6px 14px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .flee-button {
+      position: absolute;
+      transition: left 0.25s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                  top 0.25s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      z-index: 10;
+    }
+    
+    .final-message {
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes popIn {
+      0% {
+        transform: scale(0.6) translateY(40px);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .pink-gradient {
+      background: linear-gradient(90deg, #EC4899, #F472B6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="romantic-bg min-h-screen overflow-x-hidden">
+  <!-- Floating Hearts Background -->
+  <div id="hearts-bg" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+  <!-- Main Container -->
+  <div class="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10">
+    <div class="w-full max-w-[620px]">
+      
+      <!-- SCREEN 1: Lời mời đầu tiên -->
+      <div id="screen-1" class="screen">
+        <div class="glass romantic-card cute-shadow p-8 md:p-12 text-center">
+          <!-- Header cute -->
+          <div class="flex justify-center mb-6">
+            <div class="w-20 h-20 bg-gradient-to-br from-pink-400 to-rose-400 rounded-full flex items-center justify-center shadow-lg">
+              <i class="fa-solid fa-heart text-white text-5xl"></i>
+            </div>
+          </div>
+          
+          <h1 class="section-title text-4xl md:text-5xl font-extrabold leading-tight text-rose-800 tracking-tight">
+            Thùy Dương ơi,<br>
+            đi chơi với tớ nha <span class="text-pink-500">❤️</span>
+          </h1>
+          
+          <p class="mt-4 text-rose-600/80 text-lg font-medium">Ân có một lời mời siêu đặc biệt dành riêng cho cậu</p>
+          
+          <!-- Buttons -->
+          <div id="button-container" class="relative mt-10 min-h-[260px] md:min-h-[220px] flex flex-col items-center justify-center gap-4">
+            <!-- Nút Được (chính) -->
+            <button id="btn-yes"
+                    class="soft-btn w-full max-w-[280px] py-4 px-8 text-xl font-bold text-white bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 rounded-2xl shadow-lg shadow-pink-300/60 active:scale-[0.985]">
+              <i class="fa-solid fa-check mr-2"></i> Được
+            </button>
+            
+            <!-- Nút Không thèm (fleeing) -->
+            <button id="btn-no"
+                    class="flee-button soft-btn px-7 py-3.5 text-base font-semibold text-rose-400 bg-white border border-rose-200 hover:bg-rose-50 rounded-2xl shadow-sm active:scale-95">
+              <i class="fa-solid fa-times mr-1.5"></i> Không thèm
+            </button>
+            
+            <!-- Nút Vẫn chưa đủ tin tưởng -->
+            <button id="btn-unsure"
+                    class="soft-btn w-full max-w-[280px] py-3.5 px-6 text-[15.5px] font-semibold text-violet-600 bg-violet-100 hover:bg-violet-200 border border-violet-200 rounded-2xl transition-colors active:scale-[0.985]">
+              Vẫn chưa đủ tin tưởng
+            </button>
+          </div>
+          
+          <div class="mt-6 text-xs text-rose-400/70 font-medium tracking-wide">Dành riêng cho Thùy Dương • 2026</div>
+        </div>
+      </div>
+
+      <!-- SCREEN REJECT: Lý do từ chối -->
+      <div id="screen-reject" class="screen hidden">
+        <div class="glass romantic-card cute-shadow p-8 md:p-10">
+          <div class="text-center mb-7">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-rose-100 rounded-full mb-4">
+              <i class="fa-solid fa-sad-tear text-rose-400 text-4xl"></i>
+            </div>
+            <h2 class="section-title text-2xl md:text-3xl font-extrabold text-rose-700">HUHU...</h2>
+            <p class="mt-2 text-rose-600 text-lg">Thùy Dương cho tớ biết lý do tại sao nhé</p>
+          </div>
+          
+          <div class="mb-6">
+            <textarea id="ly-do-input" rows="5"
+                      class="w-full border-2 border-rose-200 focus:border-rose-400 rounded-2xl p-4 text-base placeholder:text-rose-300 resize-y"
+                      placeholder="Lý do của Thùy Dương... (ví dụ: bận học, chưa quen, muốn biết thêm về Ân, v.v.)"></textarea>
+          </div>
+          
+          <button id="btn-send-reason"
+                  class="w-full py-4 font-bold text-lg text-white bg-gradient-to-r from-rose-400 to-pink-400 hover:from-rose-500 hover:to-pink-500 rounded-2xl shadow-md active:scale-[0.985]">
+            <i class="fa-solid fa-paper-plane mr-2"></i> Gửi cho Ân
+          </button>
+          
+          <!-- Success message -->
+          <div id="reject-success" class="hidden mt-5 text-center p-5 bg-emerald-50 border border-emerald-200 rounded-2xl">
+            <div class="flex items-center justify-center gap-x-2 text-emerald-600">
+              <i class="fa-solid fa-check-circle text-xl"></i>
+              <span class="font-semibold">Tớ đã nhận được phản hồi, tớ sẽ cố gắng hơn!</span>
+            </div>
+            <button onclick="goToScreen2FromReject()" 
+                    class="mt-4 text-sm px-5 py-2 bg-white border border-emerald-300 hover:bg-emerald-50 text-emerald-700 rounded-full font-medium">
+              Vẫn muốn lên kế hoạch hẹn hò ❤️
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN 2: Form lên kế hoạch hẹn hò -->
+      <div id="screen-2" class="screen hidden">
+        <div class="glass romantic-card cute-shadow p-7 md:p-9">
+          <!-- Header form -->
+          <div class="flex items-center gap-3 mb-7">
+            <div>
+              <div class="text-pink-500">
+                <i class="fa-solid fa-calendar-heart text-3xl"></i>
+              </div>
+            </div>
+            <div>
+              <h2 class="section-title text-3xl font-extrabold text-rose-800">Lên kế hoạch hẹn hò</h2>
+              <p class="text-sm text-rose-500">Cùng Ân tạo nên buổi hẹn đầu tiên thật đặc biệt nhé</p>
+            </div>
+          </div>
+
+          <!-- Form content -->
+          <div class="space-y-7">
+            
+            <!-- 1. Ngày -->
+            <div>
+              <label class="form-label flex items-center gap-2">
+                <i class="fa-solid fa-calendar-day text-pink-400"></i> 
+                <span>1. Chọn ngày (Chỉ tháng 6 năm 2026)</span>
+              </label>
+              <input type="date" id="ngay-di" 
+                     class="date-input w-full" 
+                     min="2026-06-01" max="2026-06-30" required>
+            </div>
+
+            <!-- 2. Giờ đi -->
+            <div>
+              <label class="form-label flex items-center gap-2">
+                <i class="fa-solid fa-clock text-pink-400"></i> 
+                <span>2. Chọn giờ đi</span>
+              </label>
+              <input type="time" id="gio-di" class="time-input w-full max-w-[220px]" value="17:30" required>
+            </div>
+
+            <!-- 3. Màu sắc outfit -->
+            <div>
+              <label class="form-label flex items-center gap-2">
+                <i class="fa-solid fa-palette text-pink-400"></i> 
+                <span>3. Màu sắc outfit matching</span>
+              </label>
+              
+              <!-- Color circles -->
+              <div id="color-options" class="flex flex-wrap gap-3 mb-3">
+                <!-- Populated by JS -->
+              </div>
+              
+              <div class="flex items-center gap-3">
+                <input type="color" id="custom-color-picker" value="#F9A8D4" class="w-11 h-11 p-0.5 bg-white border border-pink-200 rounded-xl cursor-pointer">
+                <button type="button" id="btn-use-custom-color"
+                        class="px-4 py-2 text-sm font-semibold bg-white border border-pink-200 hover:bg-pink-50 rounded-xl text-rose-600">
+                  <i class="fa-solid fa-plus mr-1"></i> Dùng màu này
+                </button>
+              </div>
+              
+              <!-- Selected preview -->
+              <div id="outfit-preview" class="mt-3 hidden items-center gap-3 p-3 bg-pink-50 border border-pink-100 rounded-2xl">
+                <div id="outfit-color-preview" 
+                     class="w-9 h-9 rounded-full border border-white shadow-inner flex-shrink-0"></div>
+                <div>
+                  <div class="text-xs text-rose-400">Màu đã chọn</div>
+                  <div id="outfit-color-name" class="font-semibold text-rose-700"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Món ăn yêu thích -->
+            <div>
+              <label class="form-label flex items-center gap-2">
+                <i class="fa-solid fa-utensils text-pink-400"></i> 
+                <span>4. Món ăn yêu thích (có thể chọn nhiều)</span>
+              </label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="food-options">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- 5. Hoạt động sau khi ăn -->
+            <div>
+              <label class="form-label flex items-center gap-2">
+                <i class="fa-solid fa-heart text-pink-400"></i> 
+                <span>5. Hoạt động sau khi ăn</span>
+              </label>
+              
+              <div id="activities-container" class="space-y-2 mb-3">
+                <!-- Static + dynamic added here by JS -->
+              </div>
+              
+              <div class="flex gap-2">
+                <input id="new-activity-input" type="text" 
+                       class="flex-1 border border-pink-200 focus:border-pink-400 rounded-2xl px-4 py-2 text-sm placeholder:text-pink-300"
+                       placeholder="Hoạt động khác (ví dụ: Đi ngắm hoàng hôn)">
+                <button type="button" id="btn-add-activity"
+                        class="px-5 bg-pink-100 hover:bg-pink-200 text-pink-600 font-semibold rounded-2xl text-sm transition-colors">
+                  + Thêm
+                </button>
+              </div>
+            </div>
+
+            <!-- 6. Giờ về -->
+            <div>
+              <label class="form-label flex items-center gap-2">
+                <i class="fa-solid fa-home text-pink-400"></i> 
+                <span>6. Giờ ra về</span>
+              </label>
+              <div class="text-sm text-rose-500 mb-2 font-medium">Mời Thùy Dương chọn giờ để an tọa tại nhà 211.</div>
+              <input type="time" id="gio-ve" class="time-input w-full max-w-[220px]" value="22:00" required>
+            </div>
+          </div>
+
+          <!-- Submit button -->
+          <button id="btn-submit-plan"
+                  class="mt-8 w-full py-[18px] text-xl font-extrabold text-white bg-gradient-to-r from-rose-500 via-pink-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 rounded-2xl shadow-lg shadow-pink-400/50 active:scale-[0.985]">
+            <i class="fa-solid fa-heart mr-2"></i> Chốt lịch với Ân nhé! ❤️
+          </button>
+          
+          <div class="text-center mt-3 text-xs text-rose-400">Dữ liệu sẽ được gửi trực tiếp đến Ân</div>
+        </div>
+      </div>
+
+      <!-- SCREEN FINAL: Xác nhận -->
+      <div id="screen-final" class="screen hidden text-center">
+        <div class="glass romantic-card cute-shadow p-9 md:p-11">
+          <div class="final-message">
+            <div class="flex justify-center mb-5">
+              <div class="w-24 h-24 rounded-full bg-gradient-to-br from-pink-400 to-rose-400 flex items-center justify-center shadow-2xl">
+                <i class="fa-solid fa-heart text-white text-6xl"></i>
+              </div>
+            </div>
+            
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold text-rose-700 leading-tight">
+              Lịch trình đã được gửi đến Ân!
+            </h2>
+            
+            <p class="mt-4 text-xl text-rose-600 font-medium">Hẹn gặp Thùy Dương vào ngày hôm đó nhé! ❤️</p>
+            
+            <div class="my-7 p-5 bg-white/70 border border-pink-100 rounded-3xl text-sm text-rose-500">
+              Ân sẽ chuẩn bị thật chu đáo để buổi hẹn hò của chúng ta thật hoàn hảo.<br>
+              Cảm ơn Thùy Dương vì đã tin tưởng!
+            </div>
+            
+            <button onclick="restartEverything()"
+                    class="px-8 py-3 bg-white border border-pink-200 hover:bg-pink-50 text-pink-600 font-semibold rounded-2xl text-sm shadow-sm">
+              <i class="fa-solid fa-redo mr-2"></i> Tạo lịch mới
+            </button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    // =============================================
+    // CẤU HÌNH GOOGLE APPS SCRIPT - QUAN TRỌNG!
+    // =============================================
+    // 1. Tạo Google Sheet mới (hoặc dùng sheet hiện có)
+    // 2. Vào Extensions → Apps Script
+    // 3. Xóa code mặc định và dán đoạn code doPost ở CUỐI file này
+    // 4. Nhấn Deploy → New deployment → Web app
+    //    - Execute as: Me
+    //    - Who has access to the app: Anyone
+    // 5. Copy URL Web App và dán vào biến bên dưới
+    // =============================================
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwz6vyhG5wJzryEnLiT2Muk3UZ2eKVTGBGruMKRltZAaURPD54XsTGEYUc7KZ_X7cm6fA/exec";
+
+    // State
+    let selectedOutfit = null;
+    let selectedFoods = new Set();
+    let customActivities = [];
+
+    // Predefined colors for outfit
+    const outfitColors = [
+      { name: "Trắng", value: "#F8F1F1" },
+      { name: "Đen", value: "#2C2C2C" },
+      { name: "Hồng", value: "#F9A8D4" },
+      { name: "Xanh dương", value: "#60A5FA" },
+      { name: "Be / Kem", value: "#D1B48C" },
+      { name: "Đào", value: "#FDBA74" },
+      { name: "Tím", value: "#C084FC" },
+      { name: "Xanh lá", value: "#34D399" }
+    ];
+
+    // Predefined food options
+    const foodOptions = [
+      { emoji: "🍖", label: "Steak" },
+      { emoji: "🍕", label: "Pizza" },
+      { emoji: "🌶️", label: "Mì cay" },
+      { emoji: "🍗", label: "Gà rán" },
+      { emoji: "🍝", label: "Mì Ý" },
+      { emoji: "🍣", label: "Sushi" },
+      { emoji: "🍜", label: "Ramen" },
+      { emoji: "🥟", label: "Dimsum" }
+    ];
+
+    // Predefined activity options
+    const defaultActivities = [
+      { emoji: "🎬", label: "Xem phim" },
+      { emoji: "🚶", label: "Đi dạo thành phố" },
+      { emoji: "☕", label: "Cà phê" }
+    ];
+
+    // ===== Floating Hearts Background =====
+    function createFloatingHeart() {
+      const container = document.getElementById('hearts-bg');
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      
+      const hearts = ['❤️', '💗', '💕', '💖', '🩷'];
+      heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+      
+      const size = Math.random() * 18 + 14;
+      heart.style.fontSize = `${size}px`;
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.top = `${window.innerHeight + 10}px`;
+      
+      const duration = Math.random() * 4200 + 5200;
+      heart.style.animationDuration = `${duration}ms`;
+      
+      container.appendChild(heart);
+      
+      setTimeout(() => {
+        if (heart.parentNode) heart.parentNode.removeChild(heart);
+      }, duration + 200);
+    }
+
+    function startFloatingHearts() {
+      // Initial burst
+      for (let i = 0; i < 7; i++) {
+        setTimeout(() => createFloatingHeart(), i * 90);
+      }
+      
+      // Continuous spawn
+      setInterval(() => {
+        if (document.visibilityState === 'visible') {
+          createFloatingHeart();
+          // Occasionally spawn 2-3 at once
+          if (Math.random() < 0.35) {
+            setTimeout(() => createFloatingHeart(), 180);
+          }
+        }
+      }, 380);
+    }
+
+    // ===== Screen Navigation =====
+    function showScreen(screenId) {
+      const screens = ['screen-1', 'screen-reject', 'screen-2', 'screen-final'];
+      screens.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (id === screenId) {
+            el.classList.remove('hidden');
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            requestAnimationFrame(() => {
+              el.style.transition = 'all 0.45s cubic-bezier(0.32, 0.72, 0, 1)';
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+            });
+          } else {
+            el.style.transition = 'none';
+            el.classList.add('hidden');
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          }
+        }
+      });
+    }
+
+    function goToScreen2() {
+      showScreen('screen-2');
+      // Scroll to top on mobile
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToScreen2FromReject() {
+      document.getElementById('screen-reject').classList.add('hidden');
+      showScreen('screen-2');
+    }
+
+    // ===== Fleeing "Không thèm" Button =====
+    function setupFleeingButton() {
+      const noBtn = document.getElementById('btn-no');
+      const container = document.getElementById('button-container');
+      
+      // Initial position (bottom area)
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = '50%';
+      noBtn.style.top = '170px';
+      noBtn.style.transform = 'translateX(-50%)';
+      
+      function moveButton() {
+        const containerRect = container.getBoundingClientRect();
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+        
+        // Keep button inside container with padding
+        const padding = 12;
+        const maxLeft = containerRect.width - btnWidth - padding * 2;
+        const maxTop = containerRect.height - btnHeight - padding * 2;
+        
+        const randomLeft = Math.random() * Math.max(maxLeft, 30) + padding;
+        const randomTop = Math.random() * Math.max(maxTop, 40) + padding;
+        
+        // Remove transform for absolute positioning
+        noBtn.style.transform = 'none';
+        noBtn.style.left = `${randomLeft}px`;
+        noBtn.style.top = `${randomTop}px`;
+      }
+      
+      // Desktop hover
+      noBtn.addEventListener('mouseenter', () => {
+        moveButton();
+      });
+      
+      // Mobile touch
+      noBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        moveButton();
+      }, { passive: false });
+      
+      // Also move when trying to click (extra protection)
+      noBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        moveButton();
+      });
+      
+      // Occasionally move on its own (very cute)
+      setInterval(() => {
+        if (!noBtn.closest('#screen-1')?.classList.contains('hidden') && Math.random() < 0.12) {
+          moveButton();
+        }
+      }, 5200);
+    }
+
+    // ===== Outfit Color Picker =====
+    function setupOutfitColors() {
+      const container = document.getElementById('color-options');
+      const preview = document.getElementById('outfit-preview');
+      const previewCircle = document.getElementById('outfit-color-preview');
+      const previewName = document.getElementById('outfit-color-name');
+      
+      container.innerHTML = '';
+      
+      outfitColors.forEach(color => {
+        const div = document.createElement('div');
+        div.className = `color-circle`;
+        div.style.backgroundColor = color.value;
+        
+        if (color.value === '#2C2C2C' || color.value === '#831C3D') {
+          div.style.border = '3px solid #fff';
+        }
+        
+        div.addEventListener('click', () => {
+          // Deselect all
+          container.querySelectorAll('.color-circle').forEach(el => el.classList.remove('selected'));
+          div.classList.add('selected');
+          
+          selectedOutfit = { name: color.name, value: color.value };
+          updateOutfitPreview(preview, previewCircle, previewName);
+        });
+        
+        container.appendChild(div);
+      });
+      
+      // Custom color button
+      document.getElementById('btn-use-custom-color').addEventListener('click', () => {
+        const picker = document.getElementById('custom-color-picker');
+        const hex = picker.value;
+        
+        // Deselect preset circles
+        container.querySelectorAll('.color-circle').forEach(el => el.classList.remove('selected'));
+        
+        selectedOutfit = { name: 'Tùy chỉnh', value: hex };
+        updateOutfitPreview(preview, previewCircle, previewName);
+      });
+    }
+    
+    function updateOutfitPreview(previewEl, circleEl, nameEl) {
+      if (!selectedOutfit) return;
+      
+      previewEl.style.display = 'flex';
+      circleEl.style.backgroundColor = selectedOutfit.value;
+      
+      // Make dark color visible on preview
+      if (selectedOutfit.value === '#2C2C2C') {
+        circleEl.style.border = '2px solid #E5E7EB';
+      } else {
+        circleEl.style.border = '2px solid #fff';
+      }
+      
+      nameEl.textContent = `${selectedOutfit.name} (${selectedOutfit.value})`;
+    }
+
+    // ===== Food Checkboxes =====
+    function setupFoodOptions() {
+      const container = document.getElementById('food-options');
+      container.innerHTML = '';
+      
+      foodOptions.forEach(food => {
+        const wrapper = document.createElement('label');
+        wrapper.className = `food-chip flex items-center gap-2.5 px-4 py-2.5 bg-white border border-pink-200 hover:border-pink-300 rounded-2xl cursor-pointer select-none`;
+        
+        wrapper.innerHTML = `
+          <input type="checkbox" class="cute-checkbox w-4 h-4 accent-pink-500" value="${food.label}">
+          <span class="text-base">${food.emoji} ${food.label}</span>
+        `;
+        
+        const checkbox = wrapper.querySelector('input');
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            selectedFoods.add(food.label);
+            wrapper.classList.add('!border-pink-400', 'bg-pink-50');
+          } else {
+            selectedFoods.delete(food.label);
+            wrapper.classList.remove('!border-pink-400', 'bg-pink-50');
+          }
+        });
+        
+        container.appendChild(wrapper);
+      });
+    }
+
+    // ===== Activities (default + dynamic) =====
+    function setupDefaultActivities() {
+      const container = document.getElementById('activities-container');
+      container.innerHTML = '';
+      
+      defaultActivities.forEach(activity => {
+        addActivityToDOM(activity.emoji, activity.label, false);
+      });
+    }
+    
+    function addActivityToDOM(emoji, label, isCustom = true) {
+      const container = document.getElementById('activities-container');
+      
+      const wrapper = document.createElement('label');
+      wrapper.className = `flex items-center gap-2 px-4 py-[9px] bg-white border border-pink-200 rounded-2xl cursor-pointer activity-item`;
+      
+      wrapper.innerHTML = `
+        <input type="checkbox" checked class="cute-checkbox w-4 h-4 accent-pink-500" value="${label}">
+        <span class="flex-1 text-[15px]">${emoji} ${label}</span>
+      `;
+      
+      if (isCustom) {
+        const removeBtn = document.createElement('span');
+        removeBtn.innerHTML = `<i class="fa-solid fa-times text-rose-400 hover:text-rose-500 text-base px-1"></i>`;
+        removeBtn.className = 'cursor-pointer ml-1';
+        removeBtn.onclick = (e) => {
+          e.preventDefault();
+          wrapper.remove();
+          // Remove from customActivities list
+          customActivities = customActivities.filter(a => a !== label);
+        };
+        wrapper.appendChild(removeBtn);
+      }
+      
+      const checkbox = wrapper.querySelector('input');
+      checkbox.addEventListener('change', () => {
+        if (!checkbox.checked) {
+          if (isCustom) {
+            customActivities = customActivities.filter(a => a !== label);
+          }
+        }
+      });
+      
+      container.appendChild(wrapper);
+      return wrapper;
+    }
+    
+    function setupAddActivity() {
+      const btn = document.getElementById('btn-add-activity');
+      const input = document.getElementById('new-activity-input');
+      
+      function handleAdd() {
+        const value = input.value.trim();
+        if (!value) return;
+        
+        // Avoid duplicates
+        const existing = Array.from(document.querySelectorAll('#activities-container input[type="checkbox"]'))
+          .some(cb => cb.value.toLowerCase() === value.toLowerCase());
+        
+        if (existing) {
+          input.value = '';
+          return;
+        }
+        
+        addActivityToDOM('✨', value, true);
+        customActivities.push(value);
+        input.value = '';
+      }
+      
+      btn.addEventListener('click', handleAdd);
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleAdd();
+      });
+    }
+
+    // ===== Collect all form data =====
+    function collectFormData() {
+      const ngayDi = document.getElementById('ngay-di').value;
+      const gioDi = document.getElementById('gio-di').value;
+      const gioVe = document.getElementById('gio-ve').value;
+      
+      // Outfit
+      let outfitStr = '';
+      if (selectedOutfit) {
+        outfitStr = `${selectedOutfit.name} (${selectedOutfit.value})`;
+      }
+      
+      // Foods
+      const foodCheckboxes = document.querySelectorAll('#food-options input[type="checkbox"]:checked');
+      const foods = Array.from(foodCheckboxes).map(cb => cb.value);
+      const monAnStr = foods.length > 0 ? foods.join(', ') : 'Không chọn';
+      
+      // Activities (all checked ones)
+      const activityCheckboxes = document.querySelectorAll('#activities-container input[type="checkbox"]:checked');
+      const activities = Array.from(activityCheckboxes).map(cb => cb.value);
+      const hoatDongStr = activities.length > 0 ? activities.join(', ') : 'Không chọn';
+      
+      return {
+        trang_thai: 'Đồng ý',
+        ly_do: '',
+        ngay_di: ngayDi || 'Chưa chọn',
+        gio_di: gioDi || 'Chưa chọn',
+        outfit: outfitStr || 'Chưa chọn',
+        mon_an: monAnStr,
+        hoat_dong: hoatDongStr,
+        gio_ve: gioVe || 'Chưa chọn'
+      };
+    }
+
+    // ===== Send data to Google Sheets =====
+    async function sendToGoogleSheets(data) {
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ĐIỀN_URL')) {
+        console.warn('%c[WARNING] GOOGLE_SCRIPT_URL chưa được cấu hình. Dữ liệu sẽ chỉ được log ra console.', 'color:#f59e0b');
+        console.log('%c[DỮ LIỆU GỬI]', 'color:#ec4899; font-weight:700', data);
+        // Still proceed to final screen for demo
+        return Promise.resolve({ demo: true });
+      }
+      
+      const formData = new FormData();
+      Object.keys(data).forEach(key => {
+        formData.append(key, data[key]);
+      });
+      
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'   // Quan trọng: Google Apps Script thường yêu cầu
+        });
+        // Với mode: 'no-cors' sẽ không đọc được response, nhưng request đã được gửi
+        return { success: true };
+      } catch (err) {
+        console.error('Gửi thất bại:', err);
+        // Vẫn tiếp tục hiển thị màn hình cuối vì người dùng đã hoàn thành
+        return { success: false, error: err };
+      }
+    }
+
+    // ===== Fireworks / Confetti =====
+    function launchFireworks() {
+      if (typeof confetti !== 'function') {
+        // Fallback: create simple DOM confetti
+        createSimpleConfetti();
+        return;
+      }
+      
+      const colors = ['#F9A8D4', '#EC4899', '#F472B6', '#FDBA74', '#FFFFFF', '#FCE7F3'];
+      
+      // Multiple bursts
+      const count = 180;
+      
+      confetti({
+        particleCount: count,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: colors
+      });
+      
+      setTimeout(() => {
+        confetti({
+          particleCount: 120,
+          angle: 60,
+          spread: 65,
+          origin: { x: 0.1, y: 0.7 },
+          colors: colors
+        });
+      }, 220);
+      
+      setTimeout(() => {
+        confetti({
+          particleCount: 140,
+          angle: 120,
+          spread: 65,
+          origin: { x: 0.9, y: 0.7 },
+          colors: colors
+        });
+      }, 420);
+      
+      setTimeout(() => {
+        confetti({
+          particleCount: 90,
+          spread: 100,
+          origin: { y: 0.9 },
+          colors: colors
+        });
+      }, 720);
+    }
+    
+    function createSimpleConfetti() {
+      const colors = ['#F9A8D4', '#EC4899', '#FDBA74', '#fff'];
+      const container = document.body;
+      
+      for (let i = 0; i < 80; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'fixed';
+        particle.style.zIndex = '99999';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.top = '-10px';
+        particle.style.width = (Math.random() * 8 + 6) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.opacity = Math.random() * 0.8 + 0.6;
+        particle.style.pointerEvents = 'none';
+        container.appendChild(particle);
+        
+        const duration = Math.random() * 2800 + 3400;
+        const xDrift = (Math.random() - 0.5) * 180;
+        
+        particle.animate([
+          { 
+            transform: `translate(0, 0) rotate(0deg)`,
+            opacity: particle.style.opacity 
+          },
+          { 
+            transform: `translate(${xDrift}px, ${window.innerHeight + 80}px) rotate(${Math.random() * 600 + 300}deg)`,
+            opacity: 0 
+          }
+        ], {
+          duration: duration,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+        }).onfinish = () => particle.remove();
+      }
+    }
+
+    // ===== Main Submit Handler =====
+    function setupSubmitButton() {
+      const btn = document.getElementById('btn-submit-plan');
+      
+      btn.addEventListener('click', async () => {
+        const ngay = document.getElementById('ngay-di').value;
+        
+        if (!ngay) {
+          alert('Vui lòng chọn ngày đi trong tháng 6 năm 2026 nhé!');
+          document.getElementById('ngay-di').focus();
+          return;
+        }
+        
+        // Disable button during send
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...`;
+        
+        const data = collectFormData();
+        
+        // Send data
+        await sendToGoogleSheets(data);
+        
+        // Show final screen + fireworks
+        showScreen('screen-final');
+        launchFireworks();
+        
+        // Extra hearts burst
+        setTimeout(() => {
+          for (let i = 0; i < 5; i++) {
+            setTimeout(() => createFloatingHeart(), i * 70);
+          }
+        }, 400);
+        
+        // Reset button state (in case user comes back)
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+        }, 1200);
+      });
+    }
+
+    // ===== Rejection Flow (Gửi lý do) =====
+    function setupRejectFlow() {
+      const sendBtn = document.getElementById('btn-send-reason');
+      const textarea = document.getElementById('ly-do-input');
+      const successBox = document.getElementById('reject-success');
+      
+      sendBtn.addEventListener('click', async () => {
+        const lyDo = textarea.value.trim() || 'Không có lý do cụ thể';
+        
+        const payload = {
+          trang_thai: 'Chưa đủ tin tưởng',
+          ly_do: lyDo,
+          ngay_di: '',
+          gio_di: '',
+          outfit: '',
+          mon_an: '',
+          hoat_dong: '',
+          gio_ve: ''
+        };
+        
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...`;
+        
+        await sendToGoogleSheets(payload);
+        
+        // Show success UI
+        successBox.classList.remove('hidden');
+        sendBtn.style.display = 'none';
+        textarea.disabled = true;
+      });
+    }
+
+    // ===== Button Handlers for Screen 1 =====
+    function setupInitialButtons() {
+      // Nút Được → Màn 2
+      document.getElementById('btn-yes').addEventListener('click', () => {
+        showScreen('screen-2');
+      });
+      
+      // Nút "Vẫn chưa đủ tin tưởng" → Màn Reject
+      document.getElementById('btn-unsure').addEventListener('click', () => {
+        showScreen('screen-reject');
+      });
+      
+      // Nút "Không thèm" đã được xử lý riêng bằng setupFleeingButton()
+    }
+
+    // ===== Initialize all form UI =====
+    function initFormUI() {
+      setupOutfitColors();
+      setupFoodOptions();
+      setupDefaultActivities();
+      setupAddActivity();
+      
+      // Set default date to a nice day in June 2026
+      const dateInput = document.getElementById('ngay-di');
+      dateInput.value = '2026-06-14';
+      
+      // Optional: nice default times already set in HTML
+    }
+
+    // ===== Restart / Reset everything =====
+    function restartEverything() {
+      // Reload to reset all state cleanly
+      window.location.reload();
+    }
+
+    // ===== Main Initialization =====
+    function init() {
+      // Tailwind script already included. Add any runtime config if needed.
+      
+      // Start romantic background
+      startFloatingHearts();
+      
+      // Setup all interactive parts
+      setupFleeingButton();
+      initFormUI();
+      setupInitialButtons();
+      setupRejectFlow();
+      setupSubmitButton();
+      
+      // Show first screen
+      document.getElementById('screen-1').classList.remove('hidden');
+      
+      // Keyboard shortcut: press "y" to quickly accept (fun)
+      document.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 'y' && !document.getElementById('screen-1').classList.contains('hidden')) {
+          document.getElementById('btn-yes').click();
+        }
+      });
+      
+      // Dev hint
+      if (GOOGLE_SCRIPT_URL.includes('ĐIỀN_URL')) {
+        console.log('%c[INFO] Hãy thay GOOGLE_SCRIPT_URL bằng Web App URL sau khi deploy Apps Script.', 'color:#9ca3af');
+      }
+      
+      // Bonus: Random small hearts on title hover (desktop)
+      const titleArea = document.querySelector('#screen-1 .glass');
+      if (titleArea) {
+        titleArea.addEventListener('mouseenter', () => {
+          for (let i = 0; i < 3; i++) {
+            setTimeout(() => createFloatingHeart(), i * 60);
+          }
+        }, { once: true });
+      }
+    }
+
+    // Boot the app
+    window.onload = init;
+  </script>
+
+<!-- 
+================================================================================
+  HƯỚNG DẪN BACKEND GOOGLE APPS SCRIPT (đã cập nhật)
+================================================================================
+
+1. Mở Google Sheet bạn muốn dùng để lưu dữ liệu.
+2. Vào Extensions → Apps Script.
+3. Xóa hết code cũ.
+4. Cuộn xuống cuối file index.html này, copy phần code trong /* ... */ 
+   (bắt đầu từ "function doPost(e)").
+5. Dán vào Apps Script.
+6. Thay "PUT_YOUR_SPREADSHEET_ID_HERE" bằng ID thật của Sheet.
+7. Chạy hàm "setupHeaders" một lần để tạo header + xin quyền.
+8. Deploy → New deployment → Web app → Anyone.
+9. Copy URL Web App mới và dán vào biến GOOGLE_SCRIPT_URL ở trên.
+
+Web App URL hiện tại:
+https://script.google.com/macros/s/AKfycbwz6vyhG5wJzryEnLiT2Muk3UZ2eKVTGBGruMKRltZAaURPD54XsTGEYUc7KZ_X7cm6fA/exec
+
+================================================================================
+-->
+
+<script type="text/javascript">
+// ===== GOOGLE APPS SCRIPT - DÁN CODE NÀY VÀO APPS SCRIPT =====
+/*
+================================================================================
+                    CODE BACKEND CHO GOOGLE APPS SCRIPT
+================================================================================
+
+HƯỚNG DẪN LÀM 1 LẦN:
+
+1. Mở Google Sheet (cái bạn muốn lưu dữ liệu Thùy Dương)
+2. Vào Extensions → Apps Script
+3. XÓA hết code cũ
+4. Dán TOÀN BỘ code bên dưới vào
+5. Thay dòng SPREADSHEET_ID bằng ID thật của Sheet bạn
+6. Nhấn Save
+7. Chạy hàm "setupHeaders" 1 lần (để xin quyền + tạo header)
+8. Deploy → New deployment → Web app → "Anyone" → Deploy
+9. Copy Web App URL mới → dán vào biến GOOGLE_SCRIPT_URL ở trên
+
+Web App URL hiện tại:
+https://script.google.com/macros/s/AKfycbwz6vyhG5wJzryEnLiT2Muk3UZ2eKVTGBGruMKRltZAaURPD54XsTGEYUc7KZ_X7cm6fA/exec
+================================================================================
+*/
+
+function doPost(e) {
+  try {
+    // ==================== THAY ID SHEET Ở ĐÂY ====================
+    const SPREADSHEET_ID = "PUT_YOUR_SPREADSHEET_ID_HERE";   // ← THAY CÁI NÀY
+
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getActiveSheet();
+
+    sheet.appendRow([
+      new Date(),
+      e.parameter.trang_thai || "",
+      e.parameter.ly_do || "",
+      e.parameter.ngay_di || "",
+      e.parameter.gio_di || "",
+      e.parameter.outfit || "",
+      e.parameter.mon_an || "",
+      e.parameter.hoat_dong || "",
+      e.parameter.gio_ve || ""
+    ]);
+
+    return ContentService.createTextOutput("OK");
+
+  } catch (err) {
+    console.error("doPost ERROR: " + err.message);
+    return ContentService.createTextOutput("ERROR: " + err.message);
+  }
+}
+
+// ===== Chạy hàm này để test (không cần mở web) =====
+function testDoPost() {
+  const fake = {
+    parameter: {
+      trang_thai: "Đồng ý",
+      ly_do: "",
+      ngay_di: "2026-06-21",
+      gio_di: "17:30",
+      outfit: "Hồng (#F9A8D4)",
+      mon_an: "Pizza, Gà rán",
+      hoat_dong: "Xem phim, Cà phê",
+      gio_ve: "22:00"
+    }
+  };
+  const result = doPost(fake);
+  console.log("Test kết quả: " + result.getContent());
+}
+
+// ===== Chạy hàm này 1 lần để tạo header + xin quyền =====
+function setupHeaders() {
+  const SPREADSHEET_ID = "PUT_YOUR_SPREADSHEET_ID_HERE";   // ← THAY ID Ở ĐÂY
+
+  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getActiveSheet();
+  const headers = ["Timestamp", "Trang thai", "Ly do", "Ngay di", "Gio di", "Outfit", "Mon an", "Hoat dong", "Gio ve"];
+
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  sheet.setFrozenRows(1);
+  console.log("✅ Đã tạo header xong! Bây giờ mới Deploy Web app được.");
+}
+*/
+</script>
+</body>
+</html>
