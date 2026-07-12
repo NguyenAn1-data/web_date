@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@500;600&family=Dancing+Script:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito:wght@400;600;700&family=Quicksand:wght@500;600&family=Dancing+Script:wght@400;500;600;700&display=swap');
     
     :root {
       --lilac-light: #F3E8FF;
@@ -47,12 +47,17 @@
     }
     
     .section-title {
-      font-family: 'Quicksand', 'Nunito', sans-serif;
-      letter-spacing: -0.02em;
+      font-family: 'Cormorant Garamond', 'Quicksand', serif;
+      letter-spacing: -0.01em;
+    }
+    
+    .dreamy-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
     }
     
     .signature-font {
-      font-family: 'Dancing Script', cursive;
+      font-family: 'Dancing Script', 'Cormorant Garamond', cursive;
     }
     
     /* Floating Hearts */
@@ -84,9 +89,9 @@
     /* ===== 3D Envelope Styles ===== */
     .envelope-scene {
       perspective: 1200px;
-      width: 380px;
+      width: 440px;
       max-width: 92vw;
-      height: 280px;
+      height: 320px;
       cursor: pointer;
       position: relative;
     }
@@ -98,7 +103,7 @@
       transform-style: preserve-3d;
     }
     
-    /* Envelope body */
+    /* Envelope body — must be ABOVE the letter so it hides it */
     .envelope-body {
       position: absolute;
       inset: 0;
@@ -106,7 +111,7 @@
       border-radius: 0 0 20px 20px;
       box-shadow: 0 12px 40px -8px rgb(168 85 247 / 0.3),
                   inset 0 -6px 16px rgb(168 85 247 / 0.08);
-      z-index: 2;
+      z-index: 4;
       overflow: hidden;
     }
     
@@ -134,11 +139,11 @@
       height: 60%;
       clip-path: polygon(0% 100%, 50% 20%, 100% 100%);
       background: linear-gradient(180deg, var(--lilac-mid) 0%, var(--lilac-deep) 100%);
-      z-index: 3;
+      z-index: 5;
       opacity: 0.5;
     }
     
-    /* Flap (top triangle) */
+    /* Flap (top triangle) — highest z so it covers everything */
     .envelope-flap {
       position: absolute;
       top: 0;
@@ -149,7 +154,7 @@
       background: linear-gradient(180deg, var(--lilac-mid) 0%, var(--lilac) 100%);
       transform-origin: top center;
       transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 5;
+      z-index: 8;
       box-shadow: 0 4px 12px rgb(168 85 247 / 0.15);
     }
     
@@ -169,7 +174,7 @@
       box-shadow: 0 4px 16px rgb(236 72 153 / 0.4),
                   inset 0 2px 4px rgb(255 255 255 / 0.3),
                   inset 0 -2px 6px rgb(190 18 60 / 0.2);
-      z-index: 6;
+      z-index: 9;
       transition: transform 0.4s ease, opacity 0.4s ease;
     }
     
@@ -179,23 +184,25 @@
       filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
     }
     
-    /* Letter that slides up */
+    /* Letter — starts BEHIND the envelope body (z:1 < body z:4) */
     .envelope-letter {
       position: absolute;
       left: 8%;
       right: 8%;
-      bottom: 12%;
-      height: 85%;
+      top: 10%;
+      bottom: 10%;
       background: var(--ivory);
       border-radius: 14px 14px 10px 10px;
       box-shadow: 0 -4px 20px rgb(0 0 0 / 0.06),
                   0 2px 8px rgb(0 0 0 / 0.04);
-      z-index: 4;
+      z-index: 1;
       transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s,
-                  box-shadow 0.6s ease 0.3s;
+                  box-shadow 0.6s ease 0.3s,
+                  z-index 0s linear 0s;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       padding: 1.5rem 1.25rem;
     }
     
@@ -248,7 +255,8 @@
     }
     
     .envelope-scene.open .envelope-letter {
-      transform: translateY(-140px);
+      transform: translateY(-75%);
+      z-index: 10;
       box-shadow: 0 20px 60px rgb(0 0 0 / 0.12),
                   0 4px 12px rgb(0 0 0 / 0.06);
     }
@@ -330,7 +338,6 @@
     }
     
     .flee-button {
-      position: absolute;
       transition: left 0.25s cubic-bezier(0.68, -0.55, 0.27, 1.55),
                   top 0.25s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       z-index: 10;
@@ -408,36 +415,36 @@
         
         <!-- Letter (slides up) -->
         <div class="envelope-letter">
-          <div class="letter-content text-center flex flex-col items-center justify-center h-full gap-3">
-            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg mb-1">
-              <i class="fa-solid fa-envelope-open-text text-white text-xl"></i>
+          <div class="letter-content text-center flex flex-col items-center justify-center h-full gap-2">
+            <div class="w-11 h-11 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
+              <i class="fa-solid fa-envelope-open-text text-white text-lg"></i>
             </div>
             
-            <h1 class="section-title text-2xl md:text-[1.7rem] font-extrabold leading-tight text-purple-800 tracking-tight">
+            <h1 class="section-title text-[1.55rem] md:text-[1.75rem] font-bold leading-snug text-purple-800">
               Hà Linh ơi,<br>
               đi chơi với tớ nha <span class="text-pink-500">❤️</span>
             </h1>
             
-            <p class="text-purple-600/70 text-sm font-medium">Ân có một lời mời siêu đặc biệt dành riêng cho cậu</p>
+            <p class="dreamy-text text-purple-600/70 text-sm italic">Ân có một lời mời siêu đặc biệt dành riêng cho cậu</p>
             
             <!-- Buttons inside the letter -->
-            <div id="button-container-letter" class="relative mt-3 flex flex-col items-center justify-center gap-3 min-h-[100px] w-full">
+            <div id="button-container-letter" class="relative mt-2 flex flex-col items-center gap-2 w-full" style="min-height: 88px;">
               <!-- Button Được -->
               <button id="btn-letter-yes"
-                      class="soft-btn w-full max-w-[240px] py-3 px-6 text-base font-bold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-2xl shadow-lg shadow-purple-300/50 active:scale-[0.985]">
+                      class="soft-btn w-full max-w-[220px] py-2.5 px-5 text-base font-bold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-2xl shadow-lg shadow-purple-300/50 active:scale-[0.985]">
                 <i class="fa-solid fa-check mr-2"></i> Được
               </button>
               
               <!-- Button Không thèm (fleeing) -->
               <button id="btn-letter-no"
-                      class="flee-button soft-btn px-5 py-2.5 text-sm font-semibold text-purple-400 bg-white border border-purple-200 hover:bg-purple-50 rounded-2xl shadow-sm active:scale-95">
+                      class="soft-btn px-4 py-2 text-sm font-semibold text-purple-400 bg-white border border-purple-200 hover:bg-purple-50 rounded-2xl shadow-sm active:scale-95">
                 <i class="fa-solid fa-times mr-1.5"></i> Không thèm
               </button>
             </div>
             
             <!-- Ân's Signature -->
-            <div class="mt-2 pt-2 border-t border-purple-100 w-full">
-              <p class="signature-font text-lg text-purple-500 italic">From Ân, with hope &amp; warmth ❤️</p>
+            <div class="pt-1 border-t border-purple-100 w-full">
+              <p class="signature-font text-base text-purple-500 italic">From Ân, with hope &amp; warmth ❤️</p>
             </div>
           </div>
         </div>
@@ -748,22 +755,23 @@
       const container = document.getElementById('button-container-letter');
       if (!noBtn || !container) return;
       
-      noBtn.style.position = 'absolute';
-      noBtn.style.left = '50%';
-      noBtn.style.top = '68px';
-      noBtn.style.transform = 'translateX(-50%)';
+      let hasStartedFleeing = false;
       
       function moveButton() {
+        if (!hasStartedFleeing) {
+          hasStartedFleeing = true;
+          noBtn.style.position = 'absolute';
+        }
         const containerRect = container.getBoundingClientRect();
         const btnWidth = noBtn.offsetWidth;
         const btnHeight = noBtn.offsetHeight;
         
-        const padding = 8;
+        const padding = 4;
         const maxLeft = containerRect.width - btnWidth - padding * 2;
         const maxTop = containerRect.height - btnHeight - padding * 2;
         
         const randomLeft = Math.random() * Math.max(maxLeft, 20) + padding;
-        const randomTop = Math.random() * Math.max(maxTop, 30) + padding;
+        const randomTop = Math.random() * Math.max(maxTop, 20) + padding;
         
         noBtn.style.transform = 'none';
         noBtn.style.left = `${randomLeft}px`;
@@ -782,7 +790,7 @@
       
       setInterval(() => {
         const overlay = document.getElementById('envelope-overlay');
-        if (overlay && overlay.style.display !== 'none' && Math.random() < 0.12) {
+        if (overlay && overlay.style.display !== 'none' && hasStartedFleeing && Math.random() < 0.12) {
           moveButton();
         }
       }, 5200);
