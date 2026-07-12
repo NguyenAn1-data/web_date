@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hà Linh</title> ơi • Đi chơi với Ân nhé</title>
+  <title>Hà Linh ơi • Đi chơi với Ân nhé</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -70,6 +70,28 @@
     
     .screen {
       transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    
+    /* Flower Gate Redesign Styles */
+    #flower-gate {
+      background: rgba(253, 242, 248, 0.3);
+      backdrop-filter: blur(10px);
+    }
+    
+    .gate-panel {
+      background: linear-gradient(180deg, #FFF5F7 0%, #FFF0F5 50%, #FDF2F8 100%);
+      will-change: transform;
+    }
+
+    svg use {
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    svg use:hover {
+      transform: scale(1.15) rotate(10deg);
+      cursor: pointer;
     }
     
     .romantic-card {
@@ -181,86 +203,57 @@
   <div class="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10">
     <div class="w-full max-w-[620px]">
       
-      <!-- SCREEN 1: Lời mời đầu tiên -->
-      <div id="screen-1" class="screen">
-        <div class="glass romantic-card cute-shadow p-8 md:p-12 text-center">
-          <!-- Header cute -->
-          <div class="flex justify-center mb-6">
-            <div class="w-20 h-20 bg-gradient-to-br from-pink-400 to-rose-400 rounded-full flex items-center justify-center shadow-lg">
-              <i class="fa-solid fa-heart text-white text-5xl"></i>
-            </div>
+  <!-- Flower Gate Overlay -->
+  <div id="flower-gate" class="fixed inset-0 z-50 flex overflow-hidden pointer-events-auto transition-opacity duration-500">
+    <!-- Left Gate -->
+    <div id="gate-left" class="w-1/2 h-full gate-panel relative transition-transform duration-[1200ms] cubic-bezier(0.77, 0, 0.175, 1) border-r border-pink-200 shadow-2xl flex items-center justify-end overflow-hidden">
+      <svg id="svg-gate-left" class="absolute top-0 right-0 w-[140%] h-full pointer-events-none select-none overflow-visible"></svg>
+    </div>
+    <!-- Right Gate -->
+    <div id="gate-right" class="w-1/2 h-full gate-panel relative transition-transform duration-[1200ms] cubic-bezier(0.77, 0, 0.175, 1) border-l border-pink-200 shadow-2xl flex items-center justify-start overflow-hidden">
+      <svg id="svg-gate-right" class="absolute top-0 left-0 w-[140%] h-full pointer-events-none select-none overflow-visible"></svg>
+    </div>
+    
+    <!-- Central Glass Card -->
+    <div id="gate-card" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[90%] max-w-[500px] transition-all duration-500">
+      <div class="glass romantic-card cute-shadow p-8 md:p-10 text-center border-pink-300">
+        <!-- Cute Heart Icon -->
+        <div class="flex justify-center mb-6">
+          <div class="w-16 h-16 bg-gradient-to-br from-pink-400 to-rose-400 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+            <i class="fa-solid fa-heart text-white text-3.5xl"></i>
           </div>
-          
-          <h1 class="section-title text-4xl md:text-5xl font-extrabold leading-tight text-rose-800 tracking-tight">
-            Hà Linh ơi,<br>
-            đi chơi với tớ nha <span class="text-pink-500">❤️</span>
-          </h1>
-          
-          <p class="mt-4 text-rose-600/80 text-lg font-medium">Ân có một lời mời siêu đặc biệt dành riêng cho cậu</p>
-          
-          <!-- Buttons -->
-          <div id="button-container" class="relative mt-10 min-h-[260px] md:min-h-[220px] flex flex-col items-center justify-center gap-4">
-            <!-- Nút Được (chính) -->
-            <button id="btn-yes"
-                    class="soft-btn w-full max-w-[280px] py-4 px-8 text-xl font-bold text-white bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 rounded-2xl shadow-lg shadow-pink-300/60 active:scale-[0.985]">
-              <i class="fa-solid fa-check mr-2"></i> Được
-            </button>
-            
-            <!-- Nút Không thèm (fleeing) -->
-            <button id="btn-no"
-                    class="flee-button soft-btn px-7 py-3.5 text-base font-semibold text-rose-400 bg-white border border-rose-200 hover:bg-rose-50 rounded-2xl shadow-sm active:scale-95">
-              <i class="fa-solid fa-times mr-1.5"></i> Không thèm
-            </button>
-            
-            <!-- Nút Vẫn chưa đủ tin tưởng -->
-            <button id="btn-unsure"
-                    class="soft-btn w-full max-w-[280px] py-3.5 px-6 text-[15.5px] font-semibold text-violet-600 bg-violet-100 hover:bg-violet-200 border border-violet-200 rounded-2xl transition-colors active:scale-[0.985]">
-              Vẫn chưa đủ tin tưởng
-            </button>
-          </div>
-          
-          <div class="mt-6 text-xs text-rose-400/70 font-medium tracking-wide">Dành riêng cho Hà Linh • 2026</div>
         </div>
-      </div>
-
-      <!-- SCREEN REJECT: Lý do từ chối -->
-      <div id="screen-reject" class="screen hidden">
-        <div class="glass romantic-card cute-shadow p-8 md:p-10">
-          <div class="text-center mb-7">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-rose-100 rounded-full mb-4">
-              <i class="fa-solid fa-sad-tear text-rose-400 text-4xl"></i>
-            </div>
-            <h2 class="section-title text-2xl md:text-3xl font-extrabold text-rose-700">HUHU...</h2>
-            <p class="mt-2 text-rose-600 text-lg">Hà Linh cho tớ biết lý do tại sao nhé</p>
-          </div>
-          
-          <div class="mb-6">
-            <textarea id="ly-do-input" rows="5"
-                      class="w-full border-2 border-rose-200 focus:border-rose-400 rounded-2xl p-4 text-base placeholder:text-rose-300 resize-y"
-                      placeholder="Lý do của Hà Linh... (ví dụ: bận học, chưa quen, muốn biết thêm về Ân, v.v.)"></textarea>
-          </div>
-          
-          <button id="btn-send-reason"
-                  class="w-full py-4 font-bold text-lg text-white bg-gradient-to-r from-rose-400 to-pink-400 hover:from-rose-500 hover:to-pink-500 rounded-2xl shadow-md active:scale-[0.985]">
-            <i class="fa-solid fa-paper-plane mr-2"></i> Gửi cho Ân
+        
+        <h1 class="section-title text-3.5xl md:text-4.5xl font-extrabold leading-tight text-rose-800 tracking-tight">
+          Hà Linh ơi,<br>
+          đi chơi với tớ nha <span class="text-pink-500">❤️</span>
+        </h1>
+        
+        <p class="mt-4 text-rose-600/80 text-base font-medium">Ân có một lời mời siêu đặc biệt dành riêng cho cậu</p>
+        
+        <!-- Buttons inside the gate card -->
+        <div id="button-container-gate" class="relative mt-8 flex flex-col items-center justify-center gap-4 min-h-[140px]">
+          <!-- Button Được (chính) -->
+          <button id="btn-gate-yes"
+                  class="soft-btn w-full max-w-[280px] py-4 px-8 text-lg font-bold text-white bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 rounded-2xl shadow-lg shadow-pink-300/60 active:scale-[0.985]">
+            <i class="fa-solid fa-check mr-2"></i> Được
           </button>
           
-          <!-- Success message -->
-          <div id="reject-success" class="hidden mt-5 text-center p-5 bg-emerald-50 border border-emerald-200 rounded-2xl">
-            <div class="flex items-center justify-center gap-x-2 text-emerald-600">
-              <i class="fa-solid fa-check-circle text-xl"></i>
-              <span class="font-semibold">Tớ đã nhận được phản hồi, tớ sẽ cố gắng hơn!</span>
-            </div>
-            <button onclick="goToScreen2FromReject()" 
-                    class="mt-4 text-sm px-5 py-2 bg-white border border-emerald-300 hover:bg-emerald-50 text-emerald-700 rounded-full font-medium">
-              Vẫn muốn lên kế hoạch hẹn hò ❤️
-            </button>
-          </div>
+          <!-- Button Không thèm (fleeing) -->
+          <button id="btn-gate-no"
+                  class="flee-button soft-btn px-6 py-3.5 text-base font-semibold text-rose-400 bg-white border border-rose-200 hover:bg-rose-50 rounded-2xl shadow-sm active:scale-95">
+            <i class="fa-solid fa-times mr-1.5"></i> Không thèm
+          </button>
         </div>
+        
+        <div class="mt-6 text-xs text-rose-400/70 font-medium tracking-wide">Dành riêng cho Hà Linh • 2026</div>
       </div>
+    </div>
+  </div>
 
-      <!-- SCREEN 2: Form lên kế hoạch hẹn hò -->
-      <div id="screen-2" class="screen hidden">
+  <!-- Main Container -->
+  <div class="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10">
+    <div class="w-full max-w-[620px]">
         <div class="glass romantic-card cute-shadow p-7 md:p-9">
           <!-- Header form -->
           <div class="flex items-center gap-3 mb-7">
@@ -510,7 +503,7 @@
 
     // ===== Screen Navigation =====
     function showScreen(screenId) {
-      const screens = ['screen-1', 'screen-reject', 'screen-2', 'screen-final'];
+      const screens = ['screen-2', 'screen-final'];
       screens.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
@@ -539,20 +532,16 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function goToScreen2FromReject() {
-      document.getElementById('screen-reject').classList.add('hidden');
-      showScreen('screen-2');
-    }
-
     // ===== Fleeing "Không thèm" Button =====
     function setupFleeingButton() {
-      const noBtn = document.getElementById('btn-no');
-      const container = document.getElementById('button-container');
+      const noBtn = document.getElementById('btn-gate-no');
+      const container = document.getElementById('button-container-gate');
+      if (!noBtn || !container) return;
       
       // Initial position (bottom area)
       noBtn.style.position = 'absolute';
       noBtn.style.left = '50%';
-      noBtn.style.top = '170px';
+      noBtn.style.top = '88px';
       noBtn.style.transform = 'translateX(-50%)';
       
       function moveButton() {
@@ -593,7 +582,8 @@
       
       // Occasionally move on its own (very cute)
       setInterval(() => {
-        if (!noBtn.closest('#screen-1')?.classList.contains('hidden') && Math.random() < 0.12) {
+        const flowerGate = document.getElementById('flower-gate');
+        if (flowerGate && !flowerGate.classList.contains('hidden') && Math.random() < 0.12) {
           moveButton();
         }
       }, 5200);
@@ -954,51 +944,101 @@
       });
     }
 
-    // ===== Rejection Flow (Gửi lý do) =====
-    function setupRejectFlow() {
-      const sendBtn = document.getElementById('btn-send-reason');
-      const textarea = document.getElementById('ly-do-input');
-      const successBox = document.getElementById('reject-success');
-      
-      sendBtn.addEventListener('click', async () => {
-        const lyDo = textarea.value.trim() || 'Không có lý do cụ thể';
-        
-        const payload = {
-          trang_thai: 'Chưa đủ tin tưởng',
-          ly_do: lyDo,
-          ngay_di: '',
-          gio_di: '',
-          outfit: '',
-          mon_an: '',
-          hoat_dong: '',
-          gio_ve: ''
-        };
-        
-        sendBtn.disabled = true;
-        sendBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...`;
-        
-        await sendToGoogleSheets(payload);
-        
-        // Show success UI
-        successBox.classList.remove('hidden');
-        sendBtn.style.display = 'none';
-        textarea.disabled = true;
-      });
+    // ===== Dynamic Flower Gate Background Generator =====
+    function generateFlowerGateBG() {
+      const leftSvg = document.getElementById('svg-gate-left');
+      const rightSvg = document.getElementById('svg-gate-right');
+      if (!leftSvg || !rightSvg) return;
+
+      const leftW = leftSvg.parentNode.clientWidth || (window.innerWidth / 2);
+      const rightW = rightSvg.parentNode.clientWidth || (window.innerWidth / 2);
+      const h = window.innerHeight;
+
+      leftSvg.setAttribute('viewBox', `0 0 ${leftW} ${h}`);
+      rightSvg.setAttribute('viewBox', `0 0 ${rightW} ${h}`);
+
+      const numFlowers = Math.ceil(h / 24);
+      const flowerTypes = ['flower-rose', 'flower-peony', 'flower-tulip'];
+      const leafTypes = ['flower-leaf', 'flower-leaf-double'];
+
+      function createSvgUse(id, x, y, scale, rotation) {
+        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `#${id}`);
+        use.setAttribute('x', x);
+        use.setAttribute('y', y);
+        use.setAttribute('transform', `translate(${x}, ${y}) rotate(${rotation}) scale(${scale}) translate(${-x}, ${-y})`);
+        return use;
+      }
+
+      // Populate Left Gate (dense on the right edge)
+      const elementsLeft = [];
+      for (let i = 0; i < numFlowers * 3.5; i++) {
+        const y = Math.random() * h;
+        const rand = Math.pow(Math.random(), 1.6);
+        const x = leftW - (rand * (leftW * 0.75));
+        const isLeaf = Math.random() < 0.45;
+        const type = isLeaf ? leafTypes[Math.floor(Math.random() * leafTypes.length)] : flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+        const scale = 0.7 + Math.random() * 1.1;
+        const rotation = Math.random() * 360;
+        elementsLeft.push({ type, x, y, scale, rotation, isLeaf });
+      }
+      elementsLeft.sort((a, b) => (a.isLeaf === b.isLeaf ? 0 : a.isLeaf ? -1 : 1));
+      elementsLeft.forEach(el => leftSvg.appendChild(createSvgUse(el.type, el.x, el.y, el.scale, el.rotation)));
+
+      // Populate Right Gate (dense on the left edge)
+      const elementsRight = [];
+      for (let i = 0; i < numFlowers * 3.5; i++) {
+        const y = Math.random() * h;
+        const rand = Math.pow(Math.random(), 1.6);
+        const x = rand * (rightW * 0.75);
+        const isLeaf = Math.random() < 0.45;
+        const type = isLeaf ? leafTypes[Math.floor(Math.random() * leafTypes.length)] : flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+        const scale = 0.7 + Math.random() * 1.1;
+        const rotation = Math.random() * 360;
+        elementsRight.push({ type, x, y, scale, rotation, isLeaf });
+      }
+      elementsRight.sort((a, b) => (a.isLeaf === b.isLeaf ? 0 : a.isLeaf ? -1 : 1));
+      elementsRight.forEach(el => rightSvg.appendChild(createSvgUse(el.type, el.x, el.y, el.scale, el.rotation)));
     }
 
-    // ===== Button Handlers for Screen 1 =====
+    // ===== Button Handlers for Flower Gate =====
     function setupInitialButtons() {
-      // Nút Được → Màn 2
-      document.getElementById('btn-yes').addEventListener('click', () => {
-        showScreen('screen-2');
+      // Nút Được (gate card) → Open Gates
+      document.getElementById('btn-gate-yes').addEventListener('click', () => {
+        // 1. Hide card
+        const card = document.getElementById('gate-card');
+        card.style.opacity = '0';
+        card.style.transform = 'translate(-50%, -50%) scale(0.9)';
+        card.style.pointerEvents = 'none';
+
+        // 2. Prepare screen-2
+        const screen2 = document.getElementById('screen-2');
+        if (screen2) {
+          screen2.classList.remove('hidden');
+          screen2.style.opacity = '0';
+          screen2.style.transform = 'scale(0.95)';
+          requestAnimationFrame(() => {
+            screen2.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            screen2.style.opacity = '1';
+            screen2.style.transform = 'scale(1)';
+          });
+        }
+
+        // 3. Open gates
+        const gateLeft = document.getElementById('gate-left');
+        const gateRight = document.getElementById('gate-right');
+        gateLeft.style.transform = 'translateX(-100%)';
+        gateRight.style.transform = 'translateX(100%)';
+
+        // 4. Fireworks
+        launchFireworks();
+
+        // 5. Hide gate overlay entirely
+        setTimeout(() => {
+          const flowerGate = document.getElementById('flower-gate');
+          flowerGate.classList.add('hidden');
+        }, 1250);
       });
-      
-      // Nút "Vẫn chưa đủ tin tưởng" → Màn Reject
-      document.getElementById('btn-unsure').addEventListener('click', () => {
-        showScreen('screen-reject');
-      });
-      
-      // Nút "Không thèm" đã được xử lý riêng bằng setupFleeingButton()
     }
 
     // ===== Initialize all form UI =====
@@ -1010,38 +1050,36 @@
       
       // Set default date to a nice day in June 2026
       const dateInput = document.getElementById('ngay-di');
-      dateInput.value = '2026-06-14';
-      
-      // Optional: nice default times already set in HTML
+      if (dateInput) dateInput.value = '2026-06-14';
     }
 
     // ===== Restart / Reset everything =====
     function restartEverything() {
-      // Reload to reset all state cleanly
       window.location.reload();
     }
 
     // ===== Main Initialization =====
     function init() {
-      // Tailwind script already included. Add any runtime config if needed.
-      
       // Start romantic background
       startFloatingHearts();
+      
+      // Generate flowers on gate panels
+      generateFlowerGateBG();
       
       // Setup all interactive parts
       setupFleeingButton();
       initFormUI();
       setupInitialButtons();
-      setupRejectFlow();
       setupSubmitButton();
       
-      // Show first screen
-      document.getElementById('screen-1').classList.remove('hidden');
-      
-      // Keyboard shortcut: press "y" to quickly accept (fun)
+      // Keyboard shortcut: press "y" to quickly accept
       document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 'y' && !document.getElementById('screen-1').classList.contains('hidden')) {
-          document.getElementById('btn-yes').click();
+        if (e.key.toLowerCase() === 'y') {
+          const btnYes = document.getElementById('btn-gate-yes');
+          const flowerGate = document.getElementById('flower-gate');
+          if (btnYes && flowerGate && !flowerGate.classList.contains('hidden')) {
+            btnYes.click();
+          }
         }
       });
       
@@ -1050,8 +1088,8 @@
         console.log('%c[INFO] Hãy thay GOOGLE_SCRIPT_URL bằng Web App URL sau khi deploy Apps Script.', 'color:#9ca3af');
       }
       
-      // Bonus: Random small hearts on title hover (desktop)
-      const titleArea = document.querySelector('#screen-1 .glass');
+      // Hearts on title hover
+      const titleArea = document.querySelector('#gate-card .glass');
       if (titleArea) {
         titleArea.addEventListener('mouseenter', () => {
           for (let i = 0; i < 3; i++) {
@@ -1168,7 +1206,132 @@ function setupHeaders() {
   sheet.setFrozenRows(1);
   console.log("✅ Đã tạo header xong! Bây giờ mới Deploy Web app được.");
 }
-*/
-</script>
+  <!-- SVG Flower Definitions -->
+  <svg style="display: none;">
+    <defs>
+      <!-- Shadow Filter for 3D depth -->
+      <filter id="flower-shadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#881337" flood-opacity="0.15" />
+      </filter>
+
+      <!-- Gradients -->
+      <!-- Pink Peony Gradients -->
+      <linearGradient id="peony-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFF0F5" />
+        <stop offset="100%" stop-color="#FBCFE8" />
+      </linearGradient>
+      <linearGradient id="peony-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FBCFE8" />
+        <stop offset="100%" stop-color="#F472B6" />
+      </linearGradient>
+      <linearGradient id="peony-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F472B6" />
+        <stop offset="100%" stop-color="#EC4899" />
+      </linearGradient>
+
+      <!-- Red Rose Gradients -->
+      <linearGradient id="rose-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FDA4AF" />
+        <stop offset="100%" stop-color="#F43F5E" />
+      </linearGradient>
+      <linearGradient id="rose-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#E11D48" />
+        <stop offset="100%" stop-color="#BE123C" />
+      </linearGradient>
+      <linearGradient id="rose-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#BE123C" />
+        <stop offset="100%" stop-color="#881337" />
+      </linearGradient>
+
+      <!-- White Tulip/Lily Gradients -->
+      <linearGradient id="tulip-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFFFFF" />
+        <stop offset="100%" stop-color="#F9FAFB" />
+      </linearGradient>
+      <linearGradient id="tulip-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F3F4F6" />
+        <stop offset="100%" stop-color="#D1D5DB" />
+      </linearGradient>
+
+      <!-- Leaf Gradients -->
+      <linearGradient id="leaf-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#6EE7B7" />
+        <stop offset="100%" stop-color="#059669" />
+      </linearGradient>
+      <linearGradient id="leaf-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#A7F3D0" />
+        <stop offset="100%" stop-color="#10B981" />
+      </linearGradient>
+
+      <!-- Flower Symbols -->
+      <!-- 1. Peony -->
+      <g id="flower-peony">
+        <circle cx="0" cy="0" r="24" fill="url(#peony-grad-1)" filter="url(#flower-shadow)" />
+        <!-- Layered petals -->
+        <circle cx="-8" cy="-8" r="16" fill="url(#peony-grad-2)" />
+        <circle cx="8" cy="-8" r="16" fill="url(#peony-grad-2)" />
+        <circle cx="-8" cy="8" r="16" fill="url(#peony-grad-2)" />
+        <circle cx="8" cy="8" r="16" fill="url(#peony-grad-2)" />
+        
+        <circle cx="-5" cy="-5" r="11" fill="url(#peony-grad-3)" />
+        <circle cx="5" cy="-5" r="11" fill="url(#peony-grad-3)" />
+        <circle cx="-5" cy="5" r="11" fill="url(#peony-grad-3)" />
+        <circle cx="5" cy="5" r="11" fill="url(#peony-grad-3)" />
+        
+        <circle cx="0" cy="0" r="7" fill="#F472B6" />
+        <circle cx="0" cy="0" r="3.5" fill="#FBBF24" />
+      </g>
+
+      <!-- 2. Rose -->
+      <g id="flower-rose">
+        <circle cx="0" cy="0" r="22" fill="url(#rose-grad-1)" filter="url(#flower-shadow)" />
+        <!-- Swirling Rose Petals -->
+        <path d="M -14 -10 C -18 -2, -18 8, -12 12 C -4 16, 8 16, 12 10" fill="none" stroke="url(#rose-grad-3)" stroke-width="4" stroke-linecap="round" />
+        <path d="M 12 -12 C 18 -6, 18 6, 12 12 C 6 18, -6 18, -12 12" fill="none" stroke="url(#rose-grad-2)" stroke-width="3" stroke-linecap="round" />
+        <path d="M -10 -8 C -14 -4, -14 4, -8 8 C -2 12, 6 12, 8 6" fill="none" stroke="url(#rose-grad-3)" stroke-width="3" stroke-linecap="round" />
+        <path d="M 8 -8 C 12 -4, 12 4, 8 8" fill="none" stroke="url(#rose-grad-2)" stroke-width="2.5" stroke-linecap="round" />
+        <circle cx="0" cy="0" r="6" fill="url(#rose-grad-3)" />
+      </g>
+
+      <!-- 3. Tulip -->
+      <g id="flower-tulip">
+        <g filter="url(#flower-shadow)">
+          <!-- Left Petal -->
+          <path d="M -16 10 C -22 -6, -14 -20, 0 -22 C -6 -12, -8 0, -16 10 Z" fill="url(#tulip-grad-2)" />
+          <!-- Right Petal -->
+          <path d="M 16 10 C 22 -6, 14 -20, 0 -22 C 6 -12, 8 0, 16 10 Z" fill="url(#tulip-grad-2)" />
+          <!-- Center Petal -->
+          <path d="M -12 12 C -12 -10, 0 -24, 0 -24 C 0 -24, 12 -10, 12 12 C 6 18, -6 18, -12 12 Z" fill="url(#tulip-grad-1)" />
+          <!-- Anthers -->
+          <circle cx="-3" cy="-5" r="2.5" fill="#FBBF24" />
+          <circle cx="3" cy="-5" r="2.5" fill="#FBBF24" />
+          <line x1="-3" y1="5" x2="-3" y2="-5" stroke="#F59E0B" stroke-width="1.5" />
+          <line x1="3" y1="5" x2="3" y2="-5" stroke="#F59E0B" stroke-width="1.5" />
+        </g>
+      </g>
+
+      <!-- 4. Leaf -->
+      <g id="flower-leaf">
+        <path d="M 0 0 C -12 -10, -12 -28, 0 -38 C 12 -28, 12 -10, 0 0 Z" fill="url(#leaf-grad-1)" />
+        <path d="M 0 0 L 0 -38" stroke="#047857" stroke-width="2" />
+        <path d="M 0 -8 C -4 -12, -4 -16, 0 -20" fill="none" stroke="#047857" stroke-width="1.5" />
+        <path d="M 0 -16 C 4 -20, 4 -24, 0 -28" fill="none" stroke="#047857" stroke-width="1.5" />
+      </g>
+
+      <!-- 5. Double Leaves -->
+      <g id="flower-leaf-double">
+        <!-- Leaf 1 -->
+        <g transform="rotate(-35)">
+          <path d="M 0 0 C -10 -8, -10 -22, 0 -30 C 10 -22, 10 -8, 0 0 Z" fill="url(#leaf-grad-2)" />
+          <path d="M 0 0 L 0 -30" stroke="#065F46" stroke-width="1.5" />
+        </g>
+        <!-- Leaf 2 -->
+        <g transform="scale(-1, 1) rotate(-35)">
+          <path d="M 0 0 C -10 -8, -10 -22, 0 -30 C 10 -22, 10 -8, 0 0 Z" fill="url(#leaf-grad-2)" />
+          <path d="M 0 0 L 0 -30" stroke="#065F46" stroke-width="1.5" />
+        </g>
+      </g>
+    </defs>
+  </svg>
 </body>
 </html>
