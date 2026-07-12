@@ -8,30 +8,34 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&amp;family=Quicksand:wght@500;600&amp;display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@500;600&family=Dancing+Script:wght@400;500;600;700&display=swap');
     
     :root {
-      --pink-pastel: #FCE7F3;
-      --peach: #FDBA74;
-      --pink-peach: #F9A8D4;
+      --lilac-light: #F3E8FF;
+      --lilac: #E9D5FF;
+      --lilac-mid: #D8B4FE;
+      --lilac-deep: #C084FC;
+      --lilac-dark: #A855F7;
+      --ivory: #FFFDF9;
+      --ivory-warm: #FFF8F0;
+      --rose-accent: #F9A8D4;
     }
     
     body {
       font-family: 'Nunito', 'Quicksand', system-ui, -apple-system, sans-serif;
-    }
-    
-    .romantic-bg {
-      background: linear-gradient(135deg, #FFF5F7 0%, #FFF0F5 50%, #FDF2F8 100%);
+      background: linear-gradient(135deg, #F3E8FF 0%, #FAE8FF 30%, #FDF2F8 60%, #F3E8FF 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
     
     .glass {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(20px);
     }
     
     .cute-shadow {
-      box-shadow: 0 10px 30px -10px rgb(249 168 212 / 0.3),
-                  0 4px 6px -1px rgb(0 0 0 / 0.05);
+      box-shadow: 0 10px 40px -10px rgb(168 85 247 / 0.2),
+                  0 4px 6px -1px rgb(0 0 0 / 0.04);
     }
     
     .soft-btn {
@@ -47,10 +51,15 @@
       letter-spacing: -0.02em;
     }
     
+    .signature-font {
+      font-family: 'Dancing Script', cursive;
+    }
+    
+    /* Floating Hearts */
     .heart {
       position: absolute;
       font-size: 18px;
-      opacity: 0.6;
+      opacity: 0.5;
       pointer-events: none;
       z-index: 1;
       animation: floatUp linear forwards;
@@ -60,7 +69,7 @@
     @keyframes floatUp {
       0% {
         transform: translateY(100vh) rotate(0deg);
-        opacity: 0.6;
+        opacity: 0.5;
       }
       100% {
         transform: translateY(-120px) rotate(360deg);
@@ -72,31 +81,196 @@
       transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
     }
     
-    /* Flower Gate Redesign Styles */
-    #flower-gate {
-      background: rgba(253, 242, 248, 0.3);
-      backdrop-filter: blur(10px);
-    }
-    
-    .gate-panel {
-      background: linear-gradient(180deg, #FFF5F7 0%, #FFF0F5 50%, #FDF2F8 100%);
-      will-change: transform;
-    }
-
-    svg use {
-      transform-box: fill-box;
-      transform-origin: center;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    svg use:hover {
-      transform: scale(1.15) rotate(10deg);
+    /* ===== 3D Envelope Styles ===== */
+    .envelope-scene {
+      perspective: 1200px;
+      width: 380px;
+      max-width: 92vw;
+      height: 280px;
       cursor: pointer;
+      position: relative;
     }
     
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+    
+    /* Envelope body */
+    .envelope-body {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, var(--lilac) 0%, var(--lilac-mid) 100%);
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 12px 40px -8px rgb(168 85 247 / 0.3),
+                  inset 0 -6px 16px rgb(168 85 247 / 0.08);
+      z-index: 2;
+      overflow: hidden;
+    }
+    
+    /* Subtle texture on envelope */
+    .envelope-body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        120deg,
+        transparent,
+        transparent 60px,
+        rgba(255,255,255,0.04) 60px,
+        rgba(255,255,255,0.04) 61px
+      );
+      pointer-events: none;
+    }
+    
+    /* Decorative inner pocket triangle */
+    .envelope-pocket {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      clip-path: polygon(0% 100%, 50% 20%, 100% 100%);
+      background: linear-gradient(180deg, var(--lilac-mid) 0%, var(--lilac-deep) 100%);
+      z-index: 3;
+      opacity: 0.5;
+    }
+    
+    /* Flap (top triangle) */
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 55%;
+      clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+      background: linear-gradient(180deg, var(--lilac-mid) 0%, var(--lilac) 100%);
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 5;
+      box-shadow: 0 4px 12px rgb(168 85 247 / 0.15);
+    }
+    
+    /* Wax seal on flap */
+    .wax-seal {
+      position: absolute;
+      bottom: 22%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #F472B6, #EC4899, #DB2777);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgb(236 72 153 / 0.4),
+                  inset 0 2px 4px rgb(255 255 255 / 0.3),
+                  inset 0 -2px 6px rgb(190 18 60 / 0.2);
+      z-index: 6;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    
+    .wax-seal i {
+      color: white;
+      font-size: 1.4rem;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+    }
+    
+    /* Letter that slides up */
+    .envelope-letter {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      bottom: 12%;
+      height: 85%;
+      background: var(--ivory);
+      border-radius: 14px 14px 10px 10px;
+      box-shadow: 0 -4px 20px rgb(0 0 0 / 0.06),
+                  0 2px 8px rgb(0 0 0 / 0.04);
+      z-index: 4;
+      transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s,
+                  box-shadow 0.6s ease 0.3s;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 1.25rem;
+    }
+    
+    /* Letter decorative top border */
+    .envelope-letter::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--lilac-mid), var(--rose-accent), var(--lilac-mid));
+      border-radius: 14px 14px 0 0;
+    }
+    
+    /* Lined paper effect inside letter */
+    .envelope-letter::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 31px,
+        rgba(168, 85, 247, 0.06) 31px,
+        rgba(168, 85, 247, 0.06) 32px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .letter-content {
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.5s ease 0.6s;
+    }
+    
+    /* Open state */
+    .envelope-scene.open .envelope-flap {
+      transform: rotateX(-180deg);
+    }
+    
+    .envelope-scene.open .wax-seal {
+      transform: translateX(-50%) scale(0);
+      opacity: 0;
+    }
+    
+    .envelope-scene.open .envelope-letter {
+      transform: translateY(-140px);
+      box-shadow: 0 20px 60px rgb(0 0 0 / 0.12),
+                  0 4px 12px rgb(0 0 0 / 0.06);
+    }
+    
+    .envelope-scene.open .letter-content {
+      opacity: 1;
+    }
+    
+    /* Click prompt */
+    .tap-hint {
+      animation: gentleBounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    
+    /* Card styling */
     .romantic-card {
       border-radius: 2.5rem;
-      border: 1px solid #F9A8D4;
+      border: 1px solid var(--lilac-mid);
     }
     
     .color-circle {
@@ -115,25 +289,25 @@
     }
     
     .color-circle.selected {
-      border-color: #EC4899;
-      box-shadow: 0 0 0 4px #FCE7F3, 0 4px 12px rgb(0 0 0 / 0.15);
+      border-color: var(--lilac-dark);
+      box-shadow: 0 0 0 4px var(--lilac-light), 0 4px 12px rgb(0 0 0 / 0.15);
       transform: scale(1.05);
     }
     
     .cute-checkbox {
-      accent-color: #EC4899;
+      accent-color: var(--lilac-dark);
     }
     
     .form-label {
       font-weight: 700;
-      color: #831C3D;
+      color: #6B21A8;
       font-size: 0.95rem;
       margin-bottom: 0.5rem;
       display: block;
     }
     
     .date-input, .time-input {
-      border: 2px solid #F9A8D4;
+      border: 2px solid var(--lilac-mid);
       border-radius: 1rem;
       padding: 0.75rem 1rem;
       font-size: 1rem;
@@ -142,8 +316,8 @@
     }
     
     .date-input:focus, .time-input:focus {
-      border-color: #EC4899;
-      box-shadow: 0 0 0 4px #FCE7F3;
+      border-color: var(--lilac-dark);
+      box-shadow: 0 0 0 4px var(--lilac-light);
       outline: none;
     }
     
@@ -153,17 +327,6 @@
     
     .food-chip:hover {
       transform: translateY(-1px);
-    }
-    
-    .activity-chip {
-      background: #FFF0F5;
-      border: 1px solid #F9A8D4;
-      border-radius: 9999px;
-      padding: 6px 14px;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     
     .flee-button {
@@ -188,83 +351,124 @@
       }
     }
     
-    .pink-gradient {
-      background: linear-gradient(90deg, #EC4899, #F472B6);
+    .lilac-gradient {
+      background: linear-gradient(90deg, var(--lilac-dark), var(--lilac-mid));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+    
+    /* Subtle sparkle particles around envelope */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--lilac-mid);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkleFloat 3s ease-in-out infinite;
+    }
+    
+    @keyframes sparkleFloat {
+      0%, 100% { opacity: 0; transform: scale(0) translateY(0); }
+      30% { opacity: 1; transform: scale(1) translateY(-10px); }
+      70% { opacity: 0.6; transform: scale(0.8) translateY(-20px); }
+    }
   </style>
 </head>
-<body class="romantic-bg min-h-screen overflow-x-hidden">
+<body>
   <!-- Floating Hearts Background -->
   <div id="hearts-bg" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
 
-  <!-- Main Container -->
-  <div class="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10">
-    <div class="w-full max-w-[620px]">
-      
-  <!-- Flower Gate Overlay -->
-  <div id="flower-gate" class="fixed inset-0 z-50 flex overflow-hidden pointer-events-auto transition-opacity duration-500">
-    <!-- Left Gate -->
-    <div id="gate-left" class="w-1/2 h-full gate-panel relative transition-transform duration-[1200ms] cubic-bezier(0.77, 0, 0.175, 1) border-r border-pink-200 shadow-2xl flex items-center justify-end overflow-hidden">
-      <svg id="svg-gate-left" class="absolute top-0 right-0 w-[140%] h-full pointer-events-none select-none overflow-visible"></svg>
-    </div>
-    <!-- Right Gate -->
-    <div id="gate-right" class="w-1/2 h-full gate-panel relative transition-transform duration-[1200ms] cubic-bezier(0.77, 0, 0.175, 1) border-l border-pink-200 shadow-2xl flex items-center justify-start overflow-hidden">
-      <svg id="svg-gate-right" class="absolute top-0 left-0 w-[140%] h-full pointer-events-none select-none overflow-visible"></svg>
-    </div>
+  <!-- ===== Envelope Overlay ===== -->
+  <div id="envelope-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 transition-all duration-700">
     
-    <!-- Central Glass Card -->
-    <div id="gate-card" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[90%] max-w-[500px] transition-all duration-500">
-      <div class="glass romantic-card cute-shadow p-8 md:p-10 text-center border-pink-300">
-        <!-- Cute Heart Icon -->
-        <div class="flex justify-center mb-6">
-          <div class="w-16 h-16 bg-gradient-to-br from-pink-400 to-rose-400 rounded-full flex items-center justify-center shadow-lg animate-pulse">
-            <i class="fa-solid fa-heart text-white text-3.5xl"></i>
+    <!-- Tap hint above envelope -->
+    <div id="tap-hint" class="tap-hint mb-6 text-center transition-opacity duration-500">
+      <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-purple-100">
+        <i class="fa-solid fa-hand-pointer text-purple-400 text-sm"></i>
+        <span class="text-purple-500 text-sm font-semibold tracking-wide">Nhấp vào phong thư nhé</span>
+      </div>
+    </div>
+
+    <!-- 3D Envelope -->
+    <div id="envelope-scene" class="envelope-scene">
+      <!-- Sparkle particles -->
+      <div class="sparkle" style="top: -8px; left: 20%; animation-delay: 0s;"></div>
+      <div class="sparkle" style="top: 10%; right: 8%; animation-delay: 0.7s;"></div>
+      <div class="sparkle" style="bottom: 15%; left: 5%; animation-delay: 1.4s;"></div>
+      <div class="sparkle" style="top: 40%; right: -5px; animation-delay: 2.1s;"></div>
+      
+      <div class="envelope">
+        <!-- Flap -->
+        <div class="envelope-flap">
+          <div class="wax-seal">
+            <i class="fa-solid fa-heart"></i>
           </div>
         </div>
         
-        <h1 class="section-title text-3.5xl md:text-4.5xl font-extrabold leading-tight text-rose-800 tracking-tight">
-          Hà Linh ơi,<br>
-          đi chơi với tớ nha <span class="text-pink-500">❤️</span>
-        </h1>
-        
-        <p class="mt-4 text-rose-600/80 text-base font-medium">Ân có một lời mời siêu đặc biệt dành riêng cho cậu</p>
-        
-        <!-- Buttons inside the gate card -->
-        <div id="button-container-gate" class="relative mt-8 flex flex-col items-center justify-center gap-4 min-h-[140px]">
-          <!-- Button Được (chính) -->
-          <button id="btn-gate-yes"
-                  class="soft-btn w-full max-w-[280px] py-4 px-8 text-lg font-bold text-white bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 rounded-2xl shadow-lg shadow-pink-300/60 active:scale-[0.985]">
-            <i class="fa-solid fa-check mr-2"></i> Được
-          </button>
-          
-          <!-- Button Không thèm (fleeing) -->
-          <button id="btn-gate-no"
-                  class="flee-button soft-btn px-6 py-3.5 text-base font-semibold text-rose-400 bg-white border border-rose-200 hover:bg-rose-50 rounded-2xl shadow-sm active:scale-95">
-            <i class="fa-solid fa-times mr-1.5"></i> Không thèm
-          </button>
+        <!-- Letter (slides up) -->
+        <div class="envelope-letter">
+          <div class="letter-content text-center flex flex-col items-center justify-center h-full gap-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg mb-1">
+              <i class="fa-solid fa-envelope-open-text text-white text-xl"></i>
+            </div>
+            
+            <h1 class="section-title text-2xl md:text-[1.7rem] font-extrabold leading-tight text-purple-800 tracking-tight">
+              Hà Linh ơi,<br>
+              đi chơi với tớ nha <span class="text-pink-500">❤️</span>
+            </h1>
+            
+            <p class="text-purple-600/70 text-sm font-medium">Ân có một lời mời siêu đặc biệt dành riêng cho cậu</p>
+            
+            <!-- Buttons inside the letter -->
+            <div id="button-container-letter" class="relative mt-3 flex flex-col items-center justify-center gap-3 min-h-[100px] w-full">
+              <!-- Button Được -->
+              <button id="btn-letter-yes"
+                      class="soft-btn w-full max-w-[240px] py-3 px-6 text-base font-bold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-2xl shadow-lg shadow-purple-300/50 active:scale-[0.985]">
+                <i class="fa-solid fa-check mr-2"></i> Được
+              </button>
+              
+              <!-- Button Không thèm (fleeing) -->
+              <button id="btn-letter-no"
+                      class="flee-button soft-btn px-5 py-2.5 text-sm font-semibold text-purple-400 bg-white border border-purple-200 hover:bg-purple-50 rounded-2xl shadow-sm active:scale-95">
+                <i class="fa-solid fa-times mr-1.5"></i> Không thèm
+              </button>
+            </div>
+            
+            <!-- Ân's Signature -->
+            <div class="mt-2 pt-2 border-t border-purple-100 w-full">
+              <p class="signature-font text-lg text-purple-500 italic">From Ân, with hope &amp; warmth ❤️</p>
+            </div>
+          </div>
         </div>
         
-        <div class="mt-6 text-xs text-rose-400/70 font-medium tracking-wide">Dành riêng cho Hà Linh • 2026</div>
+        <!-- Envelope body -->
+        <div class="envelope-body">
+          <div class="envelope-pocket"></div>
+        </div>
       </div>
     </div>
+    
+    <div class="mt-5 text-xs text-purple-400/60 font-medium tracking-wide">Dành riêng cho Hà Linh • 2026</div>
   </div>
 
-  <!-- Main Container -->
-  <div class="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10">
+  <!-- ===== Main Container (Planning Form) ===== -->
+  <div id="main-content" class="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10" style="display: none;">
     <div class="w-full max-w-[620px]">
+
+      <!-- SCREEN 2: Form lên kế hoạch hẹn hò -->
+      <div id="screen-2" class="screen">
         <div class="glass romantic-card cute-shadow p-7 md:p-9">
           <!-- Header form -->
           <div class="flex items-center gap-3 mb-7">
             <div>
-              <div class="text-pink-500">
+              <div class="text-purple-500">
                 <i class="fa-solid fa-calendar-heart text-3xl"></i>
               </div>
             </div>
             <div>
-              <h2 class="section-title text-3xl font-extrabold text-rose-800">Lên kế hoạch đi zơi</h2>
-              <p class="text-sm text-rose-500">Make Ân's day</p>
+              <h2 class="section-title text-3xl font-extrabold text-purple-800">Lên kế hoạch đi zơi</h2>
+              <p class="text-sm text-purple-500">Plan for our first date 💜</p>
             </div>
           </div>
 
@@ -274,7 +478,7 @@
             <!-- 1. Ngày -->
             <div>
               <label class="form-label flex items-center gap-2">
-                <i class="fa-solid fa-calendar-day text-pink-400"></i> 
+                <i class="fa-solid fa-calendar-day text-purple-400"></i> 
                 <span>1. Chọn ngày (ngày nào với linh cũng sẽ là ngày rảnh của ân)</span>
               </label>
               <input type="date" id="ngay-di" 
@@ -285,7 +489,7 @@
             <!-- 2. Giờ đi -->
             <div>
               <label class="form-label flex items-center gap-2">
-                <i class="fa-solid fa-clock text-pink-400"></i> 
+                <i class="fa-solid fa-clock text-purple-400"></i> 
                 <span>2. Chọn giờ đi</span>
               </label>
               <input type="time" id="gio-di" class="time-input w-full max-w-[220px]" value="17:30" required>
@@ -294,7 +498,7 @@
             <!-- 3. Màu sắc outfit -->
             <div>
               <label class="form-label flex items-center gap-2">
-                <i class="fa-solid fa-palette text-pink-400"></i> 
+                <i class="fa-solid fa-palette text-purple-400"></i> 
                 <span>3. Màu sắc outfit matching</span>
               </label>
               
@@ -304,20 +508,20 @@
               </div>
               
               <div class="flex items-center gap-3">
-                <input type="color" id="custom-color-picker" value="#F9A8D4" class="w-11 h-11 p-0.5 bg-white border border-pink-200 rounded-xl cursor-pointer">
+                <input type="color" id="custom-color-picker" value="#D8B4FE" class="w-11 h-11 p-0.5 bg-white border border-purple-200 rounded-xl cursor-pointer">
                 <button type="button" id="btn-use-custom-color"
-                        class="px-4 py-2 text-sm font-semibold bg-white border border-pink-200 hover:bg-pink-50 rounded-xl text-rose-600">
+                        class="px-4 py-2 text-sm font-semibold bg-white border border-purple-200 hover:bg-purple-50 rounded-xl text-purple-600">
                   <i class="fa-solid fa-plus mr-1"></i> Dùng màu này
                 </button>
               </div>
               
               <!-- Selected preview -->
-              <div id="outfit-preview" class="mt-3 hidden items-center gap-3 p-3 bg-pink-50 border border-pink-100 rounded-2xl">
+              <div id="outfit-preview" class="mt-3 hidden items-center gap-3 p-3 bg-purple-50 border border-purple-100 rounded-2xl">
                 <div id="outfit-color-preview" 
                      class="w-9 h-9 rounded-full border border-white shadow-inner flex-shrink-0"></div>
                 <div>
-                  <div class="text-xs text-rose-400">Màu đã chọn</div>
-                  <div id="outfit-color-name" class="font-semibold text-rose-700"></div>
+                  <div class="text-xs text-purple-400">Màu đã chọn</div>
+                  <div id="outfit-color-name" class="font-semibold text-purple-700"></div>
                 </div>
               </div>
             </div>
@@ -325,7 +529,7 @@
             <!-- 4. Món ăn yêu thích -->
             <div>
               <label class="form-label flex items-center gap-2">
-                <i class="fa-solid fa-utensils text-pink-400"></i> 
+                <i class="fa-solid fa-utensils text-purple-400"></i> 
                 <span>4. Món ăn yêu thích (có thể chọn nhiều)</span>
               </label>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="food-options">
@@ -336,7 +540,7 @@
             <!-- 5. Hoạt động sau khi ăn -->
             <div>
               <label class="form-label flex items-center gap-2">
-                <i class="fa-solid fa-heart text-pink-400"></i> 
+                <i class="fa-solid fa-heart text-purple-400"></i> 
                 <span>5. Hoạt động sau khi ăn</span>
               </label>
               
@@ -346,10 +550,10 @@
               
               <div class="flex gap-2">
                 <input id="new-activity-input" type="text" 
-                       class="flex-1 border border-pink-200 focus:border-pink-400 rounded-2xl px-4 py-2 text-sm placeholder:text-pink-300"
+                       class="flex-1 border border-purple-200 focus:border-purple-400 rounded-2xl px-4 py-2 text-sm placeholder:text-purple-300"
                        placeholder="Hoạt động khác (ví dụ: Đi ngắm hoàng hôn)">
                 <button type="button" id="btn-add-activity"
-                        class="px-5 bg-pink-100 hover:bg-pink-200 text-pink-600 font-semibold rounded-2xl text-sm transition-colors">
+                        class="px-5 bg-purple-100 hover:bg-purple-200 text-purple-600 font-semibold rounded-2xl text-sm transition-colors">
                   + Thêm
                 </button>
               </div>
@@ -358,21 +562,21 @@
             <!-- 6. Giờ về -->
             <div>
               <label class="form-label flex items-center gap-2">
-                <i class="fa-solid fa-home text-pink-400"></i> 
+                <i class="fa-solid fa-home text-purple-400"></i> 
                 <span>6. Giờ ra về</span>
               </label>
-              <div class="text-sm text-rose-500 mb-2 font-medium">Mời Hà Linh chọn giờ để an tọa tại nhà.</div>
+              <div class="text-sm text-purple-500 mb-2 font-medium">Mời Hà Linh chọn giờ để an tọa tại nhà.</div>
               <input type="time" id="gio-ve" class="time-input w-full max-w-[220px]" value="22:00" required>
             </div>
           </div>
 
           <!-- Submit button -->
           <button id="btn-submit-plan"
-                  class="mt-8 w-full py-[18px] text-xl font-extrabold text-white bg-gradient-to-r from-rose-500 via-pink-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 rounded-2xl shadow-lg shadow-pink-400/50 active:scale-[0.985]">
-            <i class="fa-solid fa-heart mr-2"></i> Chốt lịch với Ân nhé! ❤️
+                  class="mt-8 w-full py-[18px] text-xl font-extrabold text-white bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 hover:from-purple-600 hover:to-purple-600 rounded-2xl shadow-lg shadow-purple-400/40 active:scale-[0.985]">
+            <i class="fa-solid fa-heart mr-2"></i> Chốt lịch với Ân nhé! 💜
           </button>
           
-          <div class="text-center mt-3 text-xs text-rose-400">Dữ liệu sẽ được gửi trực tiếp đến Ân</div>
+          <div class="text-center mt-3 text-xs text-purple-400">Dữ liệu sẽ được gửi trực tiếp đến Ân</div>
         </div>
       </div>
 
@@ -381,24 +585,29 @@
         <div class="glass romantic-card cute-shadow p-9 md:p-11">
           <div class="final-message">
             <div class="flex justify-center mb-5">
-              <div class="w-24 h-24 rounded-full bg-gradient-to-br from-pink-400 to-rose-400 flex items-center justify-center shadow-2xl">
+              <div class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center shadow-2xl">
                 <i class="fa-solid fa-heart text-white text-6xl"></i>
               </div>
             </div>
             
-            <h2 class="section-title text-3xl md:text-4xl font-extrabold text-rose-700 leading-tight">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold text-purple-700 leading-tight">
               Lịch trình đã được gửi đến Ân!
             </h2>
             
-            <p class="mt-4 text-xl text-rose-600 font-medium">Hẹn gặp Hà Linh vào ngày hôm đó nhé! ❤️</p>
+            <p class="mt-4 text-xl text-purple-600 font-medium">Hẹn gặp Hà Linh vào ngày hôm đó nhé! 💜</p>
             
-            <div class="my-7 p-5 bg-white/70 border border-pink-100 rounded-3xl text-sm text-rose-500">
+            <div class="my-7 p-5 bg-purple-50/70 border border-purple-100 rounded-3xl text-sm text-purple-500">
               Ân sẽ chuẩn bị thật chu đáo để buổi hẹn hò của chúng ta thật hoàn hảo.<br>
               Cảm ơn Hà Linh vì đã tin tưởng!
             </div>
             
+            <!-- Ân's Signature (final screen) -->
+            <div class="mb-6 pt-2">
+              <p class="signature-font text-2xl text-purple-500 italic">From Ân, with hope &amp; warmth ❤️</p>
+            </div>
+            
             <button onclick="restartEverything()"
-                    class="px-8 py-3 bg-white border border-pink-200 hover:bg-pink-50 text-pink-600 font-semibold rounded-2xl text-sm shadow-sm">
+                    class="px-8 py-3 bg-white border border-purple-200 hover:bg-purple-50 text-purple-600 font-semibold rounded-2xl text-sm shadow-sm">
               <i class="fa-solid fa-redo mr-2"></i> Tạo lịch mới
             </button>
           </div>
@@ -411,14 +620,6 @@
   <script>
     // =============================================
     // CẤU HÌNH GOOGLE APPS SCRIPT - QUAN TRỌNG!
-    // =============================================
-    // 1. Tạo Google Sheet mới (hoặc dùng sheet hiện có)
-    // 2. Vào Extensions → Apps Script
-    // 3. Xóa code mặc định và dán đoạn code doPost ở CUỐI file này
-    // 4. Nhấn Deploy → New deployment → Web app
-    //    - Execute as: Me
-    //    - Who has access to the app: Anyone
-    // 5. Copy URL Web App và dán vào biến bên dưới
     // =============================================
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwz6vyhG5wJzryEnLiT2Muk3UZ2eKVTGBGruMKRltZAaURPD54XsTGEYUc7KZ_X7cm6fA/exec";
 
@@ -465,10 +666,10 @@
       const heart = document.createElement('div');
       heart.className = 'heart';
       
-      const hearts = ['❤️', '💗', '💕', '💖', '🩷'];
+      const hearts = ['💜', '💗', '💕', '🩷', '✨'];
       heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
       
-      const size = Math.random() * 18 + 14;
+      const size = Math.random() * 16 + 12;
       heart.style.fontSize = `${size}px`;
       heart.style.left = `${Math.random() * 100}vw`;
       heart.style.top = `${window.innerHeight + 10}px`;
@@ -484,21 +685,17 @@
     }
 
     function startFloatingHearts() {
-      // Initial burst
-      for (let i = 0; i < 7; i++) {
-        setTimeout(() => createFloatingHeart(), i * 90);
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => createFloatingHeart(), i * 120);
       }
-      
-      // Continuous spawn
       setInterval(() => {
         if (document.visibilityState === 'visible') {
           createFloatingHeart();
-          // Occasionally spawn 2-3 at once
-          if (Math.random() < 0.35) {
-            setTimeout(() => createFloatingHeart(), 180);
+          if (Math.random() < 0.3) {
+            setTimeout(() => createFloatingHeart(), 200);
           }
         }
-      }, 380);
+      }, 500);
     }
 
     // ===== Screen Navigation =====
@@ -526,22 +723,34 @@
       });
     }
 
-    function goToScreen2() {
-      showScreen('screen-2');
-      // Scroll to top on mobile
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    // ===== Envelope Logic =====
+    function setupEnvelope() {
+      const scene = document.getElementById('envelope-scene');
+      const tapHint = document.getElementById('tap-hint');
+      let isOpen = false;
+      
+      scene.addEventListener('click', () => {
+        if (isOpen) return;
+        isOpen = true;
+        
+        // Open the envelope
+        scene.classList.add('open');
+        
+        // Hide tap hint
+        tapHint.style.opacity = '0';
+        setTimeout(() => { tapHint.style.display = 'none'; }, 500);
+      });
     }
 
     // ===== Fleeing "Không thèm" Button =====
     function setupFleeingButton() {
-      const noBtn = document.getElementById('btn-gate-no');
-      const container = document.getElementById('button-container-gate');
+      const noBtn = document.getElementById('btn-letter-no');
+      const container = document.getElementById('button-container-letter');
       if (!noBtn || !container) return;
       
-      // Initial position (bottom area)
       noBtn.style.position = 'absolute';
       noBtn.style.left = '50%';
-      noBtn.style.top = '88px';
+      noBtn.style.top = '68px';
       noBtn.style.transform = 'translateX(-50%)';
       
       function moveButton() {
@@ -549,44 +758,71 @@
         const btnWidth = noBtn.offsetWidth;
         const btnHeight = noBtn.offsetHeight;
         
-        // Keep button inside container with padding
-        const padding = 12;
+        const padding = 8;
         const maxLeft = containerRect.width - btnWidth - padding * 2;
         const maxTop = containerRect.height - btnHeight - padding * 2;
         
-        const randomLeft = Math.random() * Math.max(maxLeft, 30) + padding;
-        const randomTop = Math.random() * Math.max(maxTop, 40) + padding;
+        const randomLeft = Math.random() * Math.max(maxLeft, 20) + padding;
+        const randomTop = Math.random() * Math.max(maxTop, 30) + padding;
         
-        // Remove transform for absolute positioning
         noBtn.style.transform = 'none';
         noBtn.style.left = `${randomLeft}px`;
         noBtn.style.top = `${randomTop}px`;
       }
       
-      // Desktop hover
-      noBtn.addEventListener('mouseenter', () => {
-        moveButton();
-      });
-      
-      // Mobile touch
+      noBtn.addEventListener('mouseenter', () => moveButton());
       noBtn.addEventListener('touchstart', (e) => {
         e.preventDefault();
         moveButton();
       }, { passive: false });
-      
-      // Also move when trying to click (extra protection)
       noBtn.addEventListener('click', (e) => {
         e.preventDefault();
         moveButton();
       });
       
-      // Occasionally move on its own (very cute)
       setInterval(() => {
-        const flowerGate = document.getElementById('flower-gate');
-        if (flowerGate && !flowerGate.classList.contains('hidden') && Math.random() < 0.12) {
+        const overlay = document.getElementById('envelope-overlay');
+        if (overlay && overlay.style.display !== 'none' && Math.random() < 0.12) {
           moveButton();
         }
       }, 5200);
+    }
+
+    // ===== Setup Accept Button =====
+    function setupAcceptButton() {
+      document.getElementById('btn-letter-yes').addEventListener('click', (e) => {
+        e.stopPropagation(); // Don't re-trigger envelope click
+        
+        const overlay = document.getElementById('envelope-overlay');
+        const mainContent = document.getElementById('main-content');
+        
+        // Fade out the overlay
+        overlay.style.transition = 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+        overlay.style.opacity = '0';
+        overlay.style.transform = 'scale(0.95)';
+        
+        // Show main content
+        mainContent.style.display = 'flex';
+        mainContent.style.opacity = '0';
+        mainContent.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          overlay.style.display = 'none';
+          mainContent.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+          mainContent.style.opacity = '1';
+          mainContent.style.transform = 'translateY(0)';
+          
+          // Fireworks!
+          launchFireworks();
+          
+          // Hearts burst
+          for (let i = 0; i < 6; i++) {
+            setTimeout(() => createFloatingHeart(), i * 80);
+          }
+        }, 500);
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
 
     // ===== Outfit Color Picker =====
@@ -608,7 +844,6 @@
         }
         
         div.addEventListener('click', () => {
-          // Deselect all
           container.querySelectorAll('.color-circle').forEach(el => el.classList.remove('selected'));
           div.classList.add('selected');
           
@@ -619,12 +854,10 @@
         container.appendChild(div);
       });
       
-      // Custom color button
       document.getElementById('btn-use-custom-color').addEventListener('click', () => {
         const picker = document.getElementById('custom-color-picker');
         const hex = picker.value;
         
-        // Deselect preset circles
         container.querySelectorAll('.color-circle').forEach(el => el.classList.remove('selected'));
         
         selectedOutfit = { name: 'Tùy chỉnh', value: hex };
@@ -638,7 +871,6 @@
       previewEl.style.display = 'flex';
       circleEl.style.backgroundColor = selectedOutfit.value;
       
-      // Make dark color visible on preview
       if (selectedOutfit.value === '#2C2C2C') {
         circleEl.style.border = '2px solid #E5E7EB';
       } else {
@@ -655,10 +887,10 @@
       
       foodOptions.forEach(food => {
         const wrapper = document.createElement('label');
-        wrapper.className = `food-chip flex items-center gap-2.5 px-4 py-2.5 bg-white border border-pink-200 hover:border-pink-300 rounded-2xl cursor-pointer select-none`;
+        wrapper.className = `food-chip flex items-center gap-2.5 px-4 py-2.5 bg-white border border-purple-200 hover:border-purple-300 rounded-2xl cursor-pointer select-none`;
         
         wrapper.innerHTML = `
-          <input type="checkbox" class="cute-checkbox w-4 h-4 accent-pink-500" value="${food.label}">
+          <input type="checkbox" class="cute-checkbox w-4 h-4 accent-purple-500" value="${food.label}">
           <span class="text-base">${food.emoji} ${food.label}</span>
         `;
         
@@ -666,10 +898,10 @@
         checkbox.addEventListener('change', () => {
           if (checkbox.checked) {
             selectedFoods.add(food.label);
-            wrapper.classList.add('!border-pink-400', 'bg-pink-50');
+            wrapper.classList.add('!border-purple-400', 'bg-purple-50');
           } else {
             selectedFoods.delete(food.label);
-            wrapper.classList.remove('!border-pink-400', 'bg-pink-50');
+            wrapper.classList.remove('!border-purple-400', 'bg-purple-50');
           }
         });
         
@@ -677,7 +909,7 @@
       });
     }
 
-    // ===== Activities (default + dynamic) =====
+    // ===== Activities =====
     function setupDefaultActivities() {
       const container = document.getElementById('activities-container');
       container.innerHTML = '';
@@ -691,21 +923,20 @@
       const container = document.getElementById('activities-container');
       
       const wrapper = document.createElement('label');
-      wrapper.className = `flex items-center gap-2 px-4 py-[9px] bg-white border border-pink-200 rounded-2xl cursor-pointer activity-item`;
+      wrapper.className = `flex items-center gap-2 px-4 py-[9px] bg-white border border-purple-200 rounded-2xl cursor-pointer activity-item`;
       
       wrapper.innerHTML = `
-        <input type="checkbox" checked class="cute-checkbox w-4 h-4 accent-pink-500" value="${label}">
+        <input type="checkbox" checked class="cute-checkbox w-4 h-4 accent-purple-500" value="${label}">
         <span class="flex-1 text-[15px]">${emoji} ${label}</span>
       `;
       
       if (isCustom) {
         const removeBtn = document.createElement('span');
-        removeBtn.innerHTML = `<i class="fa-solid fa-times text-rose-400 hover:text-rose-500 text-base px-1"></i>`;
+        removeBtn.innerHTML = `<i class="fa-solid fa-times text-purple-400 hover:text-purple-500 text-base px-1"></i>`;
         removeBtn.className = 'cursor-pointer ml-1';
         removeBtn.onclick = (e) => {
           e.preventDefault();
           wrapper.remove();
-          // Remove from customActivities list
           customActivities = customActivities.filter(a => a !== label);
         };
         wrapper.appendChild(removeBtn);
@@ -732,7 +963,6 @@
         const value = input.value.trim();
         if (!value) return;
         
-        // Avoid duplicates
         const existing = Array.from(document.querySelectorAll('#activities-container input[type="checkbox"]'))
           .some(cb => cb.value.toLowerCase() === value.toLowerCase());
         
@@ -758,18 +988,15 @@
       const gioDi = document.getElementById('gio-di').value;
       const gioVe = document.getElementById('gio-ve').value;
       
-      // Outfit
       let outfitStr = '';
       if (selectedOutfit) {
         outfitStr = `${selectedOutfit.name} (${selectedOutfit.value})`;
       }
       
-      // Foods
       const foodCheckboxes = document.querySelectorAll('#food-options input[type="checkbox"]:checked');
       const foods = Array.from(foodCheckboxes).map(cb => cb.value);
       const monAnStr = foods.length > 0 ? foods.join(', ') : 'Không chọn';
       
-      // Activities (all checked ones)
       const activityCheckboxes = document.querySelectorAll('#activities-container input[type="checkbox"]:checked');
       const activities = Array.from(activityCheckboxes).map(cb => cb.value);
       const hoatDongStr = activities.length > 0 ? activities.join(', ') : 'Không chọn';
@@ -789,9 +1016,8 @@
     // ===== Send data to Google Sheets =====
     async function sendToGoogleSheets(data) {
       if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ĐIỀN_URL')) {
-        console.warn('%c[WARNING] GOOGLE_SCRIPT_URL chưa được cấu hình. Dữ liệu sẽ chỉ được log ra console.', 'color:#f59e0b');
-        console.log('%c[DỮ LIỆU GỬI]', 'color:#ec4899; font-weight:700', data);
-        // Still proceed to final screen for demo
+        console.warn('%c[WARNING] GOOGLE_SCRIPT_URL chưa được cấu hình.', 'color:#f59e0b');
+        console.log('%c[DỮ LIỆU GỬI]', 'color:#a855f7; font-weight:700', data);
         return Promise.resolve({ demo: true });
       }
       
@@ -804,13 +1030,11 @@
         await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           body: formData,
-          mode: 'no-cors'   // Quan trọng: Google Apps Script thường yêu cầu
+          mode: 'no-cors'
         });
-        // Với mode: 'no-cors' sẽ không đọc được response, nhưng request đã được gửi
         return { success: true };
       } catch (err) {
         console.error('Gửi thất bại:', err);
-        // Vẫn tiếp tục hiển thị màn hình cuối vì người dùng đã hoàn thành
         return { success: false, error: err };
       }
     }
@@ -818,18 +1042,14 @@
     // ===== Fireworks / Confetti =====
     function launchFireworks() {
       if (typeof confetti !== 'function') {
-        // Fallback: create simple DOM confetti
         createSimpleConfetti();
         return;
       }
       
-      const colors = ['#F9A8D4', '#EC4899', '#F472B6', '#FDBA74', '#FFFFFF', '#FCE7F3'];
-      
-      // Multiple bursts
-      const count = 180;
+      const colors = ['#D8B4FE', '#A855F7', '#C084FC', '#F9A8D4', '#FFFFFF', '#F3E8FF'];
       
       confetti({
-        particleCount: count,
+        particleCount: 180,
         spread: 70,
         origin: { y: 0.6 },
         colors: colors
@@ -866,7 +1086,7 @@
     }
     
     function createSimpleConfetti() {
-      const colors = ['#F9A8D4', '#EC4899', '#FDBA74', '#fff'];
+      const colors = ['#D8B4FE', '#A855F7', '#F9A8D4', '#fff'];
       const container = document.body;
       
       for (let i = 0; i < 80; i++) {
@@ -915,129 +1135,26 @@
           return;
         }
         
-        // Disable button during send
         const originalText = btn.innerHTML;
         btn.disabled = true;
         btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...`;
         
         const data = collectFormData();
-        
-        // Send data
         await sendToGoogleSheets(data);
         
-        // Show final screen + fireworks
         showScreen('screen-final');
         launchFireworks();
         
-        // Extra hearts burst
         setTimeout(() => {
           for (let i = 0; i < 5; i++) {
             setTimeout(() => createFloatingHeart(), i * 70);
           }
         }, 400);
         
-        // Reset button state (in case user comes back)
         setTimeout(() => {
           btn.disabled = false;
           btn.innerHTML = originalText;
         }, 1200);
-      });
-    }
-
-    // ===== Dynamic Flower Gate Background Generator =====
-    function generateFlowerGateBG() {
-      const leftSvg = document.getElementById('svg-gate-left');
-      const rightSvg = document.getElementById('svg-gate-right');
-      if (!leftSvg || !rightSvg) return;
-
-      const leftW = leftSvg.parentNode.clientWidth || (window.innerWidth / 2);
-      const rightW = rightSvg.parentNode.clientWidth || (window.innerWidth / 2);
-      const h = window.innerHeight;
-
-      leftSvg.setAttribute('viewBox', `0 0 ${leftW} ${h}`);
-      rightSvg.setAttribute('viewBox', `0 0 ${rightW} ${h}`);
-
-      const numFlowers = Math.ceil(h / 24);
-      const flowerTypes = ['flower-rose', 'flower-peony', 'flower-tulip'];
-      const leafTypes = ['flower-leaf', 'flower-leaf-double'];
-
-      function createSvgUse(id, x, y, scale, rotation) {
-        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-        use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `#${id}`);
-        use.setAttribute('x', x);
-        use.setAttribute('y', y);
-        use.setAttribute('transform', `translate(${x}, ${y}) rotate(${rotation}) scale(${scale}) translate(${-x}, ${-y})`);
-        return use;
-      }
-
-      // Populate Left Gate (dense on the right edge)
-      const elementsLeft = [];
-      for (let i = 0; i < numFlowers * 3.5; i++) {
-        const y = Math.random() * h;
-        const rand = Math.pow(Math.random(), 1.6);
-        const x = leftW - (rand * (leftW * 0.75));
-        const isLeaf = Math.random() < 0.45;
-        const type = isLeaf ? leafTypes[Math.floor(Math.random() * leafTypes.length)] : flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
-        const scale = 0.7 + Math.random() * 1.1;
-        const rotation = Math.random() * 360;
-        elementsLeft.push({ type, x, y, scale, rotation, isLeaf });
-      }
-      elementsLeft.sort((a, b) => (a.isLeaf === b.isLeaf ? 0 : a.isLeaf ? -1 : 1));
-      elementsLeft.forEach(el => leftSvg.appendChild(createSvgUse(el.type, el.x, el.y, el.scale, el.rotation)));
-
-      // Populate Right Gate (dense on the left edge)
-      const elementsRight = [];
-      for (let i = 0; i < numFlowers * 3.5; i++) {
-        const y = Math.random() * h;
-        const rand = Math.pow(Math.random(), 1.6);
-        const x = rand * (rightW * 0.75);
-        const isLeaf = Math.random() < 0.45;
-        const type = isLeaf ? leafTypes[Math.floor(Math.random() * leafTypes.length)] : flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
-        const scale = 0.7 + Math.random() * 1.1;
-        const rotation = Math.random() * 360;
-        elementsRight.push({ type, x, y, scale, rotation, isLeaf });
-      }
-      elementsRight.sort((a, b) => (a.isLeaf === b.isLeaf ? 0 : a.isLeaf ? -1 : 1));
-      elementsRight.forEach(el => rightSvg.appendChild(createSvgUse(el.type, el.x, el.y, el.scale, el.rotation)));
-    }
-
-    // ===== Button Handlers for Flower Gate =====
-    function setupInitialButtons() {
-      // Nút Được (gate card) → Open Gates
-      document.getElementById('btn-gate-yes').addEventListener('click', () => {
-        // 1. Hide card
-        const card = document.getElementById('gate-card');
-        card.style.opacity = '0';
-        card.style.transform = 'translate(-50%, -50%) scale(0.9)';
-        card.style.pointerEvents = 'none';
-
-        // 2. Prepare screen-2
-        const screen2 = document.getElementById('screen-2');
-        if (screen2) {
-          screen2.classList.remove('hidden');
-          screen2.style.opacity = '0';
-          screen2.style.transform = 'scale(0.95)';
-          requestAnimationFrame(() => {
-            screen2.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            screen2.style.opacity = '1';
-            screen2.style.transform = 'scale(1)';
-          });
-        }
-
-        // 3. Open gates
-        const gateLeft = document.getElementById('gate-left');
-        const gateRight = document.getElementById('gate-right');
-        gateLeft.style.transform = 'translateX(-100%)';
-        gateRight.style.transform = 'translateX(100%)';
-
-        // 4. Fireworks
-        launchFireworks();
-
-        // 5. Hide gate overlay entirely
-        setTimeout(() => {
-          const flowerGate = document.getElementById('flower-gate');
-          flowerGate.classList.add('hidden');
-        }, 1250);
       });
     }
 
@@ -1048,58 +1165,45 @@
       setupDefaultActivities();
       setupAddActivity();
       
-      // Set default date to a nice day in June 2026
       const dateInput = document.getElementById('ngay-di');
       if (dateInput) dateInput.value = '2026-06-14';
     }
 
-    // ===== Restart / Reset everything =====
+    // ===== Restart =====
     function restartEverything() {
       window.location.reload();
     }
 
     // ===== Main Initialization =====
     function init() {
-      // Start romantic background
       startFloatingHearts();
       
-      // Generate flowers on gate panels
-      generateFlowerGateBG();
-      
-      // Setup all interactive parts
+      setupEnvelope();
       setupFleeingButton();
+      setupAcceptButton();
       initFormUI();
-      setupInitialButtons();
       setupSubmitButton();
       
-      // Keyboard shortcut: press "y" to quickly accept
+      // Keyboard shortcut: press "y" to accept
       document.addEventListener('keydown', (e) => {
         if (e.key.toLowerCase() === 'y') {
-          const btnYes = document.getElementById('btn-gate-yes');
-          const flowerGate = document.getElementById('flower-gate');
-          if (btnYes && flowerGate && !flowerGate.classList.contains('hidden')) {
-            btnYes.click();
+          const overlay = document.getElementById('envelope-overlay');
+          if (overlay && overlay.style.display !== 'none') {
+            const scene = document.getElementById('envelope-scene');
+            if (scene.classList.contains('open')) {
+              document.getElementById('btn-letter-yes').click();
+            } else {
+              scene.click();
+            }
           }
         }
       });
       
-      // Dev hint
       if (GOOGLE_SCRIPT_URL.includes('ĐIỀN_URL')) {
         console.log('%c[INFO] Hãy thay GOOGLE_SCRIPT_URL bằng Web App URL sau khi deploy Apps Script.', 'color:#9ca3af');
       }
-      
-      // Hearts on title hover
-      const titleArea = document.querySelector('#gate-card .glass');
-      if (titleArea) {
-        titleArea.addEventListener('mouseenter', () => {
-          for (let i = 0; i < 3; i++) {
-            setTimeout(() => createFloatingHeart(), i * 60);
-          }
-        }, { once: true });
-      }
     }
 
-    // Boot the app
     window.onload = init;
   </script>
 
@@ -1151,8 +1255,7 @@ https://script.google.com/macros/s/AKfycbwz6vyhG5wJzryEnLiT2Muk3UZ2eKVTGBGruMKRl
 
 function doPost(e) {
   try {
-    // ==================== THAY ID SHEET Ở ĐÂY ====================
-    const SPREADSHEET_ID = "PUT_YOUR_SPREADSHEET_ID_HERE";   // ← THAY CÁI NÀY
+    const SPREADSHEET_ID = "PUT_YOUR_SPREADSHEET_ID_HERE";
 
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = ss.getActiveSheet();
@@ -1177,7 +1280,6 @@ function doPost(e) {
   }
 }
 
-// ===== Chạy hàm này để test (không cần mở web) =====
 function testDoPost() {
   const fake = {
     parameter: {
@@ -1195,9 +1297,8 @@ function testDoPost() {
   console.log("Test kết quả: " + result.getContent());
 }
 
-// ===== Chạy hàm này 1 lần để tạo header + xin quyền =====
 function setupHeaders() {
-  const SPREADSHEET_ID = "PUT_YOUR_SPREADSHEET_ID_HERE";   // ← THAY ID Ở ĐÂY
+  const SPREADSHEET_ID = "PUT_YOUR_SPREADSHEET_ID_HERE";
 
   const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getActiveSheet();
   const headers = ["Timestamp", "Trang thai", "Ly do", "Ngay di", "Gio di", "Outfit", "Mon an", "Hoat dong", "Gio ve"];
@@ -1206,132 +1307,7 @@ function setupHeaders() {
   sheet.setFrozenRows(1);
   console.log("✅ Đã tạo header xong! Bây giờ mới Deploy Web app được.");
 }
-  <!-- SVG Flower Definitions -->
-  <svg style="display: none;">
-    <defs>
-      <!-- Shadow Filter for 3D depth -->
-      <filter id="flower-shadow" x="-30%" y="-30%" width="160%" height="160%">
-        <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#881337" flood-opacity="0.15" />
-      </filter>
-
-      <!-- Gradients -->
-      <!-- Pink Peony Gradients -->
-      <linearGradient id="peony-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#FFF0F5" />
-        <stop offset="100%" stop-color="#FBCFE8" />
-      </linearGradient>
-      <linearGradient id="peony-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#FBCFE8" />
-        <stop offset="100%" stop-color="#F472B6" />
-      </linearGradient>
-      <linearGradient id="peony-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#F472B6" />
-        <stop offset="100%" stop-color="#EC4899" />
-      </linearGradient>
-
-      <!-- Red Rose Gradients -->
-      <linearGradient id="rose-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#FDA4AF" />
-        <stop offset="100%" stop-color="#F43F5E" />
-      </linearGradient>
-      <linearGradient id="rose-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#E11D48" />
-        <stop offset="100%" stop-color="#BE123C" />
-      </linearGradient>
-      <linearGradient id="rose-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#BE123C" />
-        <stop offset="100%" stop-color="#881337" />
-      </linearGradient>
-
-      <!-- White Tulip/Lily Gradients -->
-      <linearGradient id="tulip-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#FFFFFF" />
-        <stop offset="100%" stop-color="#F9FAFB" />
-      </linearGradient>
-      <linearGradient id="tulip-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#F3F4F6" />
-        <stop offset="100%" stop-color="#D1D5DB" />
-      </linearGradient>
-
-      <!-- Leaf Gradients -->
-      <linearGradient id="leaf-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#6EE7B7" />
-        <stop offset="100%" stop-color="#059669" />
-      </linearGradient>
-      <linearGradient id="leaf-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#A7F3D0" />
-        <stop offset="100%" stop-color="#10B981" />
-      </linearGradient>
-
-      <!-- Flower Symbols -->
-      <!-- 1. Peony -->
-      <g id="flower-peony">
-        <circle cx="0" cy="0" r="24" fill="url(#peony-grad-1)" filter="url(#flower-shadow)" />
-        <!-- Layered petals -->
-        <circle cx="-8" cy="-8" r="16" fill="url(#peony-grad-2)" />
-        <circle cx="8" cy="-8" r="16" fill="url(#peony-grad-2)" />
-        <circle cx="-8" cy="8" r="16" fill="url(#peony-grad-2)" />
-        <circle cx="8" cy="8" r="16" fill="url(#peony-grad-2)" />
-        
-        <circle cx="-5" cy="-5" r="11" fill="url(#peony-grad-3)" />
-        <circle cx="5" cy="-5" r="11" fill="url(#peony-grad-3)" />
-        <circle cx="-5" cy="5" r="11" fill="url(#peony-grad-3)" />
-        <circle cx="5" cy="5" r="11" fill="url(#peony-grad-3)" />
-        
-        <circle cx="0" cy="0" r="7" fill="#F472B6" />
-        <circle cx="0" cy="0" r="3.5" fill="#FBBF24" />
-      </g>
-
-      <!-- 2. Rose -->
-      <g id="flower-rose">
-        <circle cx="0" cy="0" r="22" fill="url(#rose-grad-1)" filter="url(#flower-shadow)" />
-        <!-- Swirling Rose Petals -->
-        <path d="M -14 -10 C -18 -2, -18 8, -12 12 C -4 16, 8 16, 12 10" fill="none" stroke="url(#rose-grad-3)" stroke-width="4" stroke-linecap="round" />
-        <path d="M 12 -12 C 18 -6, 18 6, 12 12 C 6 18, -6 18, -12 12" fill="none" stroke="url(#rose-grad-2)" stroke-width="3" stroke-linecap="round" />
-        <path d="M -10 -8 C -14 -4, -14 4, -8 8 C -2 12, 6 12, 8 6" fill="none" stroke="url(#rose-grad-3)" stroke-width="3" stroke-linecap="round" />
-        <path d="M 8 -8 C 12 -4, 12 4, 8 8" fill="none" stroke="url(#rose-grad-2)" stroke-width="2.5" stroke-linecap="round" />
-        <circle cx="0" cy="0" r="6" fill="url(#rose-grad-3)" />
-      </g>
-
-      <!-- 3. Tulip -->
-      <g id="flower-tulip">
-        <g filter="url(#flower-shadow)">
-          <!-- Left Petal -->
-          <path d="M -16 10 C -22 -6, -14 -20, 0 -22 C -6 -12, -8 0, -16 10 Z" fill="url(#tulip-grad-2)" />
-          <!-- Right Petal -->
-          <path d="M 16 10 C 22 -6, 14 -20, 0 -22 C 6 -12, 8 0, 16 10 Z" fill="url(#tulip-grad-2)" />
-          <!-- Center Petal -->
-          <path d="M -12 12 C -12 -10, 0 -24, 0 -24 C 0 -24, 12 -10, 12 12 C 6 18, -6 18, -12 12 Z" fill="url(#tulip-grad-1)" />
-          <!-- Anthers -->
-          <circle cx="-3" cy="-5" r="2.5" fill="#FBBF24" />
-          <circle cx="3" cy="-5" r="2.5" fill="#FBBF24" />
-          <line x1="-3" y1="5" x2="-3" y2="-5" stroke="#F59E0B" stroke-width="1.5" />
-          <line x1="3" y1="5" x2="3" y2="-5" stroke="#F59E0B" stroke-width="1.5" />
-        </g>
-      </g>
-
-      <!-- 4. Leaf -->
-      <g id="flower-leaf">
-        <path d="M 0 0 C -12 -10, -12 -28, 0 -38 C 12 -28, 12 -10, 0 0 Z" fill="url(#leaf-grad-1)" />
-        <path d="M 0 0 L 0 -38" stroke="#047857" stroke-width="2" />
-        <path d="M 0 -8 C -4 -12, -4 -16, 0 -20" fill="none" stroke="#047857" stroke-width="1.5" />
-        <path d="M 0 -16 C 4 -20, 4 -24, 0 -28" fill="none" stroke="#047857" stroke-width="1.5" />
-      </g>
-
-      <!-- 5. Double Leaves -->
-      <g id="flower-leaf-double">
-        <!-- Leaf 1 -->
-        <g transform="rotate(-35)">
-          <path d="M 0 0 C -10 -8, -10 -22, 0 -30 C 10 -22, 10 -8, 0 0 Z" fill="url(#leaf-grad-2)" />
-          <path d="M 0 0 L 0 -30" stroke="#065F46" stroke-width="1.5" />
-        </g>
-        <!-- Leaf 2 -->
-        <g transform="scale(-1, 1) rotate(-35)">
-          <path d="M 0 0 C -10 -8, -10 -22, 0 -30 C 10 -22, 10 -8, 0 0 Z" fill="url(#leaf-grad-2)" />
-          <path d="M 0 0 L 0 -30" stroke="#065F46" stroke-width="1.5" />
-        </g>
-      </g>
-    </defs>
-  </svg>
+*/
+</script>
 </body>
 </html>
