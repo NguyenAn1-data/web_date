@@ -84,14 +84,12 @@
     
     .screen {
       transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
-    }
-    
-    /* ===== 3D Envelope Styles ===== */
+     /* ===== 3D Envelope Styles ===== */
     .envelope-scene {
-      perspective: 1200px;
-      width: 440px;
+      perspective: 1500px;
+      width: 580px;
       max-width: 92vw;
-      height: 320px;
+      height: 400px;
       cursor: pointer;
       position: relative;
     }
@@ -108,9 +106,9 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(160deg, var(--lilac) 0%, var(--lilac-mid) 100%);
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 12px 40px -8px rgb(168 85 247 / 0.3),
-                  inset 0 -6px 16px rgb(168 85 247 / 0.08);
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 15px 45px -10px rgb(168 85 247 / 0.35),
+                  inset 0 -8px 20px rgb(168 85 247 / 0.08);
       z-index: 4;
       overflow: hidden;
     }
@@ -155,23 +153,23 @@
       transform-origin: top center;
       transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
       z-index: 8;
-      box-shadow: 0 4px 12px rgb(168 85 247 / 0.15);
+      box-shadow: 0 5px 15px rgb(168 85 247 / 0.15);
     }
     
     /* Wax seal on flap */
     .wax-seal {
       position: absolute;
-      bottom: 22%;
+      bottom: 20%;
       left: 50%;
       transform: translateX(-50%);
-      width: 52px;
-      height: 52px;
+      width: 64px;
+      height: 64px;
       background: linear-gradient(135deg, #F472B6, #EC4899, #DB2777);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 16px rgb(236 72 153 / 0.4),
+      box-shadow: 0 6px 20px rgb(236 72 153 / 0.45),
                   inset 0 2px 4px rgb(255 255 255 / 0.3),
                   inset 0 -2px 6px rgb(190 18 60 / 0.2);
       z-index: 9;
@@ -180,19 +178,19 @@
     
     .wax-seal i {
       color: white;
-      font-size: 1.4rem;
+      font-size: 1.7rem;
       filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
     }
     
     /* Letter — starts BEHIND the envelope body (z:1 < body z:4) */
     .envelope-letter {
       position: absolute;
-      left: 8%;
-      right: 8%;
-      top: 10%;
-      bottom: 10%;
+      left: 6%;
+      right: 6%;
+      top: 8%;
+      bottom: 8%;
       background: var(--ivory);
-      border-radius: 14px 14px 10px 10px;
+      border-radius: 18px 18px 12px 12px;
       box-shadow: 0 -4px 20px rgb(0 0 0 / 0.06),
                   0 2px 8px rgb(0 0 0 / 0.04);
       z-index: 1;
@@ -203,7 +201,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 1.5rem 1.25rem;
+      padding: 2rem 2.25rem;
     }
     
     /* Letter decorative top border */
@@ -213,25 +211,25 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 5px;
+      height: 6px;
       background: linear-gradient(90deg, var(--lilac-mid), var(--rose-accent), var(--lilac-mid));
-      border-radius: 14px 14px 0 0;
+      border-radius: 18px 18px 0 0;
     }
     
     /* Lined paper effect inside letter */
     .envelope-letter::after {
       content: '';
       position: absolute;
-      top: 5px;
+      top: 6px;
       left: 0;
       right: 0;
       bottom: 0;
       background: repeating-linear-gradient(
         to bottom,
         transparent,
-        transparent 31px,
-        rgba(168, 85, 247, 0.06) 31px,
-        rgba(168, 85, 247, 0.06) 32px
+        transparent 35px,
+        rgba(168, 85, 247, 0.05) 35px,
+        rgba(168, 85, 247, 0.05) 36px
       );
       pointer-events: none;
       z-index: 0;
@@ -255,10 +253,10 @@
     }
     
     .envelope-scene.open .envelope-letter {
-      transform: translateY(-75%);
+      transform: translateY(-72%);
       z-index: 10;
-      box-shadow: 0 20px 60px rgb(0 0 0 / 0.12),
-                  0 4px 12px rgb(0 0 0 / 0.06);
+      box-shadow: 0 25px 65px rgb(0 0 0 / 0.15),
+                  0 5px 15px rgb(0 0 0 / 0.05);
     }
     
     .envelope-scene.open .letter-content {
@@ -415,36 +413,20 @@
         
         <!-- Letter (slides up) -->
         <div class="envelope-letter">
-          <div class="letter-content text-center flex flex-col items-center justify-center h-full gap-2">
-            <div class="w-11 h-11 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
-              <i class="fa-solid fa-envelope-open-text text-white text-lg"></i>
+          <div class="letter-content text-center flex flex-col items-center justify-center h-full gap-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform duration-300">
+              <i class="fa-solid fa-envelope-open-text text-white text-2xl"></i>
             </div>
             
-            <h1 class="section-title text-[1.55rem] md:text-[1.75rem] font-bold leading-snug text-purple-800">
-              Hà Linh ơi,<br>
-              đi chơi với tớ nha <span class="text-pink-500">❤️</span>
+            <h1 class="section-title text-[2.1rem] md:text-[2.5rem] font-bold leading-tight text-purple-800">
+              Set lịch thôi nào! ✨
             </h1>
             
-            <p class="dreamy-text text-purple-600/70 text-sm italic">Ân có một lời mời siêu đặc biệt dành riêng cho cậu</p>
+            <p class="dreamy-text text-purple-600/70 text-base md:text-lg italic">Ân đã chuẩn bị sẵn một kế hoạch nho nhỏ ở bên trong</p>
             
-            <!-- Buttons inside the letter -->
-            <div id="button-container-letter" class="relative mt-2 flex flex-col items-center gap-2 w-full" style="min-height: 88px;">
-              <!-- Button Được -->
-              <button id="btn-letter-yes"
-                      class="soft-btn w-full max-w-[220px] py-2.5 px-5 text-base font-bold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-2xl shadow-lg shadow-purple-300/50 active:scale-[0.985]">
-                <i class="fa-solid fa-check mr-2"></i> Được
-              </button>
-              
-              <!-- Button Không thèm (fleeing) -->
-              <button id="btn-letter-no"
-                      class="soft-btn px-4 py-2 text-sm font-semibold text-purple-400 bg-white border border-purple-200 hover:bg-purple-50 rounded-2xl shadow-sm active:scale-95">
-                <i class="fa-solid fa-times mr-1.5"></i> Không thèm
-              </button>
-            </div>
-            
-            <!-- Ân's Signature -->
-            <div class="pt-1 border-t border-purple-100 w-full">
-              <p class="signature-font text-base text-purple-500 italic">From Ân, with hope &amp; warmth ❤️</p>
+            <!-- Ân's Signature inside envelope -->
+            <div class="pt-2 border-t border-purple-100/60 w-full">
+              <p class="signature-font text-lg md:text-xl text-purple-500 italic">From Ân, with warmth and hope ❤️</p>
             </div>
           </div>
         </div>
@@ -584,6 +566,11 @@
           </button>
           
           <div class="text-center mt-3 text-xs text-purple-400">Dữ liệu sẽ được gửi trực tiếp đến Ân</div>
+          
+          <!-- Ân's Signature inside Form -->
+          <div class="mt-6 pt-5 border-t border-purple-100/60 text-center">
+            <p class="signature-font text-2xl text-purple-500 italic">From Ân, with warmth and hope ❤️</p>
+          </div>
         </div>
       </div>
 
@@ -740,96 +727,43 @@
         if (isOpen) return;
         isOpen = true;
         
-        // Open the envelope
+        // 1. Open the envelope (plays the CSS lật nắp & slide up animations)
         scene.classList.add('open');
         
-        // Hide tap hint
+        // 2. Hide tap hint
         tapHint.style.opacity = '0';
         setTimeout(() => { tapHint.style.display = 'none'; }, 500);
-      });
-    }
-
-    // ===== Fleeing "Không thèm" Button =====
-    function setupFleeingButton() {
-      const noBtn = document.getElementById('btn-letter-no');
-      const container = document.getElementById('button-container-letter');
-      if (!noBtn || !container) return;
-      
-      let hasStartedFleeing = false;
-      
-      function moveButton() {
-        if (!hasStartedFleeing) {
-          hasStartedFleeing = true;
-          noBtn.style.position = 'absolute';
-        }
-        const containerRect = container.getBoundingClientRect();
-        const btnWidth = noBtn.offsetWidth;
-        const btnHeight = noBtn.offsetHeight;
         
-        const padding = 4;
-        const maxLeft = containerRect.width - btnWidth - padding * 2;
-        const maxTop = containerRect.height - btnHeight - padding * 2;
-        
-        const randomLeft = Math.random() * Math.max(maxLeft, 20) + padding;
-        const randomTop = Math.random() * Math.max(maxTop, 20) + padding;
-        
-        noBtn.style.transform = 'none';
-        noBtn.style.left = `${randomLeft}px`;
-        noBtn.style.top = `${randomTop}px`;
-      }
-      
-      noBtn.addEventListener('mouseenter', () => moveButton());
-      noBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        moveButton();
-      }, { passive: false });
-      noBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        moveButton();
-      });
-      
-      setInterval(() => {
-        const overlay = document.getElementById('envelope-overlay');
-        if (overlay && overlay.style.display !== 'none' && hasStartedFleeing && Math.random() < 0.12) {
-          moveButton();
-        }
-      }, 5200);
-    }
-
-    // ===== Setup Accept Button =====
-    function setupAcceptButton() {
-      document.getElementById('btn-letter-yes').addEventListener('click', (e) => {
-        e.stopPropagation(); // Don't re-trigger envelope click
-        
+        // 3. Smooth transition straight to planning form
         const overlay = document.getElementById('envelope-overlay');
         const mainContent = document.getElementById('main-content');
         
-        // Fade out the overlay
-        overlay.style.transition = 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
-        overlay.style.opacity = '0';
-        overlay.style.transform = 'scale(0.95)';
-        
-        // Show main content
-        mainContent.style.display = 'flex';
-        mainContent.style.opacity = '0';
-        mainContent.style.transform = 'translateY(20px)';
-        
         setTimeout(() => {
-          overlay.style.display = 'none';
-          mainContent.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-          mainContent.style.opacity = '1';
-          mainContent.style.transform = 'translateY(0)';
+          // Fade out the overlay envelope
+          overlay.style.transition = 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+          overlay.style.opacity = '0';
+          overlay.style.transform = 'scale(0.95)';
           
-          // Fireworks!
-          launchFireworks();
+          // Show planning form layout
+          mainContent.style.display = 'flex';
+          mainContent.style.opacity = '0';
+          mainContent.style.transform = 'translateY(20px)';
           
-          // Hearts burst
-          for (let i = 0; i < 6; i++) {
-            setTimeout(() => createFloatingHeart(), i * 80);
-          }
-        }, 500);
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => {
+            overlay.style.display = 'none';
+            mainContent.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            mainContent.style.opacity = '1';
+            mainContent.style.transform = 'translateY(0)';
+            
+            // Celebration confetti
+            launchFireworks();
+            
+            // Floating hearts
+            for (let i = 0; i < 6; i++) {
+              setTimeout(() => createFloatingHeart(), i * 80);
+            }
+          }, 400);
+        }, 850); // Delay to let envelope flap open beautifully
       });
     }
 
@@ -1187,23 +1121,15 @@
       startFloatingHearts();
       
       setupEnvelope();
-      setupFleeingButton();
-      setupAcceptButton();
       initFormUI();
       setupSubmitButton();
       
-      // Keyboard shortcut: press "y" to accept
+      // Keyboard shortcut: press any key or click to open
       document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 'y') {
-          const overlay = document.getElementById('envelope-overlay');
-          if (overlay && overlay.style.display !== 'none') {
-            const scene = document.getElementById('envelope-scene');
-            if (scene.classList.contains('open')) {
-              document.getElementById('btn-letter-yes').click();
-            } else {
-              scene.click();
-            }
-          }
+        const overlay = document.getElementById('envelope-overlay');
+        if (overlay && overlay.style.display !== 'none') {
+          const scene = document.getElementById('envelope-scene');
+          scene.click();
         }
       });
       
@@ -1237,9 +1163,7 @@ https://script.google.com/macros/s/AKfycbwz6vyhG5wJzryEnLiT2Muk3UZ2eKVTGBGruMKRl
 ================================================================================
 -->
 
-<script type="text/javascript">
-// ===== GOOGLE APPS SCRIPT - DÁN CODE NÀY VÀO APPS SCRIPT =====
-/*
+<!-- 
 ================================================================================
                     CODE BACKEND CHO GOOGLE APPS SCRIPT
 ================================================================================
@@ -1259,7 +1183,6 @@ HƯỚNG DẪN LÀM 1 LẦN:
 Web App URL hiện tại:
 https://script.google.com/macros/s/AKfycbwz6vyhG5wJzryEnLiT2Muk3UZ2eKVTGBGruMKRltZAaURPD54XsTGEYUc7KZ_X7cm6fA/exec
 ================================================================================
-*/
 
 function doPost(e) {
   try {
@@ -1315,7 +1238,6 @@ function setupHeaders() {
   sheet.setFrozenRows(1);
   console.log("✅ Đã tạo header xong! Bây giờ mới Deploy Web app được.");
 }
-*/
-</script>
+-->
 </body>
 </html>
